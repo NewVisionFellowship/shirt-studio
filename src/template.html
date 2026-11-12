@@ -72,6 +72,9 @@ h1 { margin: 6px 0; font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-
 .custom { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 14px; }
 .custom input { width: 56px; height: 44px; padding: 2px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; }
 footer { font-size: 13px; color: var(--soft); line-height: 1.5; }
+.brand { margin-bottom: 2px; }
+.brand a { display: inline-flex; }
+.brand svg { display: block; height: 26px; width: auto; }
 @media (max-width: 640px) { .wrap { padding: 20px 16px 40px; } .chips { align-items: flex-start; } }
 </style>
 </head>
@@ -231,6 +234,7 @@ function render() {
   const logoHTML = c.twoSided ? `<div class="abs" style="left:${c.logoL}px;top:${c.logoT}px;width:${c.logoW}px">${artSVG(LOGO[c.logoLayout], ink1.hex, ink2.hex, shirt.hex)}</div>` : '';
   const guides = c.guide ? [c.gF, c.gB].map((g) => `<div class="guide" style="left:${g.l}px;top:${g.t}px;width:${g.w}px;height:${g.h}px"></div>`).join('') : '';
   document.getElementById('app').innerHTML = `
+<div class="brand"><a href="https://nvf.life/" aria-label="New Vision Fellowship">${artSVG(LOGO.horizontal, '#221f1b', '#78be20', 'none')}</a></div>
 <div class="picker"><span class="label" style="margin-right:8px">Choose a design</span>${D.map((x, i) => `<button class="pick" data-design="${x.k}" aria-pressed="${x.k === d.k}" title="${esc(x.t)}" aria-label="${esc(x.t)}">${c.nums[i]}</button>`).join('')}</div>
 <div class="head"><div><div class="eyebrow">Option ${c.nums[c.di]} · ${c.tee ? 'Gildan 64000 Softstyle tee' : 'Gildan 18000 crewneck'}</div><h1>${esc(d.t)}</h1><p class="desc">${esc(d.b)}</p></div>
 <div class="chips"><div><span class="chip dark">${one ? 1 : 2}-color print</span><span class="chip">${c.twoSided ? '2 sides' : '1 side'}</span></div><div class="place">${c.placeText}</div></div></div>
@@ -253,7 +257,7 @@ ${logoHTML}${guides}
 </div>
 <div class="presets"><span class="label" style="margin-right:4px">Recommended</span>${pres}</div>
 <div class="dl"><button class="pill" data-act="download" aria-pressed="false">Download print files (.zip)</button><span class="note">Vector SVGs of this design and logo in the current inks, black ink separations, a flat mockup, and a print spec sheet.</span></div>
-<footer>NVF Christmas Stroll volunteer shirts · New Vision Fellowship, Madison NC. Mockups are drawn to scale; screen colors are approximate, so check final ink colors against your printer’s PMS ink book.</footer>
+<footer>&copy; ${new Date().getFullYear()} New Vision Fellowship, Madison NC. Mockups are drawn to scale; screen colors are approximate, so check final ink colors against your printer’s PMS ink book.</footer>
 ${slot ? `<div class="pop" data-close="1"><div class="popc" role="dialog" aria-modal="true" aria-label="Choose ink">
 <div class="top"><div><h2>${slot === 'ink2' ? 'Choose Ink 2 · accents &amp; “Fellowship”' : 'Choose Ink 1 · type &amp; “New Vision”'}</h2><p>Common screen-print inks by Pantone (PMS) number, with NVF brand colors matched to their closest PMS. Screens show these colors only approximately, so check the final colors against your printer’s ink book.</p></div><button class="done" data-close="1">Done</button></div>
 <div class="inkgrid">${INKS.map((x) => `<button class="ink" data-ink="${x.k}" aria-pressed="${x.k === cur.k && !(slot === 'ink2' && one)}"><span class="dot" style="background:${x.hex}"></span><span><b>${esc(x.n)}</b><span>${esc(x.code)}</span><span>${x.hex.toUpperCase()}</span></span></button>`).join('')}</div>

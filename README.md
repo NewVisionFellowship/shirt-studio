@@ -22,3 +22,10 @@ Plus potrace: `brew install potrace` (Mac), `sudo apt install potrace` (Linux) o
 4. `python3 tools/build.py`, then open `dist/index.html`.
 
 Or just tell Claude Code: "I exported a new design to exports/advent.png. Inks are white and NVF bright green. Add it as design 12."
+
+## License
+
+Split license, see [LICENSE](LICENSE): the build tooling (`src/template.html`'s
+engine, `tools/build.py`, `tools/add_art.py`, the GitHub Actions workflow) is
+MIT. The artwork, logos, catalog copy, and Claude Design reference snapshots
+are New Vision Fellowship's own brand assets — all rights reserved.
