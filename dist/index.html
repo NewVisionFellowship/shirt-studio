@@ -211,18 +211,33 @@ function artSVG(a, i1, i2, bg, attrs) {
 
 // ---------- state ----------
 const S = {};
+const SESSION = {};
 const set = (p) => { Object.assign(S, p); render(); };
 const reset = { preset: 0, shirt: undefined, ink1: undefined, ink2: undefined, one: undefined, swap: false, big: undefined, sides: undefined };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const find = (arr, k) => arr.find((x) => x.k === k) || arr[0];
+const findInk = (k) => (typeof k === 'string' && k[0] === '#') ? { k, n: 'Custom color', hex: k, code: 'ask printer for nearest PMS' } : find(INKS, k);
+
+// ---------- saved presets (persisted per browser via localStorage) ----------
+const SAVE_KEY = 'nvf-shirt-studio:saved-presets';
+let SAVED = {};
+try { SAVED = JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch (e) { SAVED = {}; }
+function presetsFor(d) {
+  const over = SAVED[d.k];
+  return over ? d.P.map((q, i) => over[i] || q) : d.P;
+}
+function savePreset(d, idx, tuple) {
+  SAVED[d.k] = { ...(SAVED[d.k] || {}), [idx]: tuple };
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVED)); } catch (e) {}
+}
 
 function compute() {
   const key = S.design || 'onmission';
   const di = Math.max(0, D.findIndex((x) => x.k === key));
   const d = D[di];
-  const p = d.P[S.preset ?? 0] || d.P[0];
-  const find = (arr, k) => arr.find((x) => x.k === k) || arr[0];
+  const presets = presetsFor(d);
+  const p = presets[S.preset ?? 0] || presets[0];
   const shirt = find(SHIRTS, S.shirt ?? p[0]);
-  const findInk = (k) => (typeof k === 'string' && k[0] === '#') ? { k, n: 'Custom color', hex: k, code: 'ask printer for nearest PMS' } : find(INKS, k);
   const ink1 = findInk(S.ink1 ?? p[1]);
   const ink2r = findInk(S.ink2 ?? p[2]);
   const one = S.one ?? !!p[3];
@@ -277,7 +292,7 @@ function compute() {
   let dn = 0;
   const nums = D.map((x) => x.num || String(++dn).padStart(2, '0'));
   const placeText = (tee ? (youth ? 'Youth L tee shown · body about 18″ × 23½″' : 'Adult L tee shown · body about 22″ × 30″') : (youth ? 'Youth L shown · body about 19″ × 23″' : 'Adult L shown · body about 24″ × 29″')) + ' · drawn to scale';
-  return { d, di, nums, shirt, ink1, ink2, ink2r, one, either, twoSided, msgFront, big, youth, guide, tee, artW, msgL, msgT, logoLayout, logoW, logoL, logoT, gF, gB, frontSpec, backSpec, artKey, placeText, pwIn, dAr, logoIn, lAr, st };
+  return { d, di, nums, shirt, ink1, ink2, ink2r, one, either, twoSided, msgFront, big, youth, guide, tee, artW, msgL, msgT, logoLayout, logoW, logoL, logoT, gF, gB, frontSpec, backSpec, artKey, placeText, pwIn, dAr, logoIn, lAr, st, presets };
 }
 
 function render() {
@@ -285,8 +300,8 @@ function render() {
   const { d, shirt, ink1, ink2, ink2r, one } = c;
   const G = c.tee ? teeSVG : sweatSVG;
   const art = ART[c.artKey];
-  const pres = d.P.map((q, i) => {
-    const S1 = SHIRTS.find((x) => x.k === q[0]), A = INKS.find((x) => x.k === q[1]), B = INKS.find((x) => x.k === q[2]);
+  const pres = c.presets.map((q, i) => {
+    const S1 = find(SHIRTS, q[0]), A = findInk(q[1]), B = findInk(q[2]);
     const active = shirt.k === S1.k && ink1.k === A.k && (q[3] ? one : (!one && ink2r.k === B.k));
     return `<button class="preset" data-preset="${i}" aria-pressed="${active}"><span class="pv" style="background:${S1.hex}"><i style="background:${A.hex}"></i><i style="background:${q[3] ? A.hex : B.hex}"></i></span>${esc(S1.n + ' · ' + A.n + (q[3] ? ' (1 color)' : ' + ' + B.n))}</button>`;
   }).join('');
@@ -321,7 +336,7 @@ ${logoHTML}${guides}
 <div class="col" style="opacity:${one ? 0.45 : 1}"><div class="label">Ink 2 · accents &amp; “Fellowship”</div><button class="inkbtn" data-open="ink2" aria-label="Change ink 2"><span class="dot" style="background:${(one ? ink1 : ink2r).hex}"></span><span class="t"><b>${one ? 'Same as ink 1' : esc(ink2r.n)}</b><span>${one ? 'Turn off one-color to choose' : ink2r.hex.toUpperCase() + ' · ' + esc(ink2r.code)}</span></span><span class="change">Change</span></button></div>
 <div class="col"><div class="label">Print options</div><div class="seg">${opts}</div></div>
 </div>
-<div class="presets"><span class="label" style="margin-right:4px">Recommended</span>${pres}</div>
+<div class="presets"><span class="label" style="margin-right:4px">Recommended</span>${pres}<select id="save-preset-select" class="pill sm" aria-label="Save current colors as a recommended preset" style="margin-left:4px"><option value="" selected disabled>Save to…</option>${c.presets.map((q, i) => `<option value="${i}">Preset ${i + 1}</option>`).join('')}</select></div>
 <div class="dl"><button class="pill" data-act="download" aria-pressed="false">Download print files (.zip)</button><span class="note">Vector SVGs of this design and logo in the current inks, black ink separations, a flat mockup, and a print spec sheet.</span></div>
 <footer>&copy; ${new Date().getFullYear()} New Vision Fellowship, Madison NC. Mockups are drawn to scale; screen colors are approximate, so check final ink colors against your printer’s PMS ink book.</footer>
 ${slot ? `<div class="pop" data-close="1"><div class="popc" role="dialog" aria-modal="true" aria-label="Choose ink">
@@ -346,7 +361,11 @@ document.addEventListener('click', (e) => {
   const ds = b.dataset;
   if (b.classList.contains('pop') && e.target !== b) return;
   if (ds.close) return set({ open: null });
-  if (ds.design) return set({ ...reset, design: ds.design });
+  if (ds.design) {
+    const prevKey = S.design || 'onmission';
+    SESSION[prevKey] = { preset: S.preset, shirt: S.shirt, ink1: S.ink1, ink2: S.ink2, one: S.one, swap: S.swap, big: S.big, sides: S.sides };
+    return set({ ...reset, ...(SESSION[ds.design] || {}), design: ds.design });
+  }
   if (ds.garment) return set({ garment: ds.garment });
   if (ds.shirt) return set({ shirt: ds.shirt });
   if (ds.preset) return set({ preset: +ds.preset, shirt: undefined, ink1: undefined, ink2: undefined, one: undefined });
@@ -365,6 +384,12 @@ document.addEventListener('click', (e) => {
 });
 document.addEventListener('change', (e) => {
   if (e.target.id === 'ink-custom') { const v = e.target.value; set(S.open === 'ink2' ? { ink2: v, one: false } : { ink1: v }); }
+  if (e.target.id === 'save-preset-select') {
+    const idx = +e.target.value;
+    const c = compute();
+    savePreset(c.d, idx, [c.shirt.k, c.ink1.k, c.ink2r.k, c.one]);
+    set({ preset: idx });
+  }
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.open) set({ open: null }); });
 

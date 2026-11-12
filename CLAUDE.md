@@ -65,3 +65,15 @@ A one-sided design that carries the flat logo beneath the art (like design 06's 
 - Ink colors are Pantone (PMS) coated matches; NVF brand colors are mapped to their nearest PMS in `INKS`.
 - Recommended combos (`P`) are the pastor's picks. Change them only when asked; the first one is the design's default.
 - The church is New Vision Fellowship, Madison NC. Designs carry Scripture references; keep them exactly as written in the art.
+
+## Saved presets (visitor-local, not part of the catalog)
+
+The page's "Save to…" dropdown next to Recommended lets a visitor overwrite one of a
+design's preset slots with the shirt/ink combo currently shown. This is purely a
+browser-local override, stored in that visitor's own `localStorage` — it never
+touches `src/catalog.js` and is invisible to every other visitor and device. If the
+pastor wants a saved combo to become everyone's actual default, that still means
+editing `P` in `src/catalog.js` and rebuilding, same as any other catalog change.
+Separately, switching between designs in one page session remembers each design's
+unsaved in-progress tweaks for the rest of that session (lost on reload); a design
+that has never been touched this session loads its (possibly visitor-saved) preset 1.
