@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NVF Shirt Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --paper: #f4f1eb; --panel: #e9e2d5; --ink: #221f1b; --muted: #4a443d; --soft: #6d675b; --line: #cfc7b8; --card: #faf7f1; --accent: #42701f; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: Archivo, system-ui, sans-serif; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 28px 40px 48px; display: flex; flex-direction: column; gap: 20px; }
+button { font-family: inherit; color: inherit; cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.label { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft); }
+.picker { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pick { width: 48px; height: 44px; border-radius: 22px; border: 1.5px solid var(--line); background: var(--card); font-weight: 700; font-size: 15px; }
+.pick[aria-pressed="true"] { background: var(--ink); color: var(--card); border-color: var(--ink); }
+.head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 6px 0; font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.01em; line-height: 1.05; }
+.desc { margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; line-height: 1.4; color: var(--muted); max-width: 780px; }
+.chips { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.chips div { display: flex; gap: 8px; }
+.chip { padding: 7px 14px; border-radius: 16px; font-size: 14px; font-weight: 700; background: #e9e2d5; }
+.chip.dark { background: var(--ink); color: var(--card); }
+.place { font-size: 14px; color: var(--muted); }
+.stageBox { position: relative; width: 100%; }
+.stage { position: absolute; left: 0; top: 0; width: 1240px; height: 660px; transform-origin: 0 0; }
+.panel { position: absolute; top: 0; width: 600px; height: 660px; border-radius: 20px; background: var(--panel); }
+.abs { position: absolute; line-height: 0; }
+.abs svg { display: block; width: 100%; height: auto; overflow: visible; }
+.tag { position: absolute; top: 18px; padding: 6px 12px; border-radius: 14px; background: rgba(250,247,241,0.92); font-size: 12px; font-weight: 800; letter-spacing: 0.14em; }
+.spec { position: absolute; top: 598px; width: 552px; display: flex; flex-direction: column; gap: 4px; line-height: 1.35; }
+.spec b { font-size: 16px; } .spec span { font-size: 14px; color: var(--muted); }
+.guide { position: absolute; border: 2px dashed rgba(250,247,241,0.85); outline: 1px dashed rgba(0,0,0,0.45); }
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { height: 44px; padding: 0 14px; border-radius: 22px; border: 1.5px solid var(--ink); background: var(--card); font-weight: 600; font-size: 14px; }
+.pill.sm { height: 34px; border-radius: 17px; font-weight: 700; font-size: 13px; }
+.pill[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+.swatches { display: flex; flex-wrap: wrap; gap: 6px; }
+.sw { width: 44px; height: 44px; padding: 3px; border-radius: 50%; border: 2px solid transparent; background: transparent; }
+.sw[aria-pressed="true"] { border-color: var(--ink); }
+.sw span { display: block; width: 100%; height: 100%; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.22); }
+.inkbtn { display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--card); text-align: left; width: 100%; }
+.dot { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25); }
+.inkbtn .t { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex-grow: 1; }
+.inkbtn .t b { font-size: 15px; } .inkbtn .t span { font-size: 13px; color: var(--muted); }
+.change { font-size: 13px; font-weight: 700; color: var(--accent); }
+.presets { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.preset { height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 8px; border-radius: 22px; border: 1.5px solid var(--line); background: var(--card); font-weight: 600; font-size: 14px; }
+.preset[aria-pressed="true"] { border: 2px solid var(--ink); }
+.pv { display: flex; align-items: center; justify-content: center; gap: 3px; width: 64px; height: 30px; border-radius: 15px; }
+.pv i { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
+.dl { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.dl .note { font-size: 14px; color: var(--muted); }
+.pop { position: fixed; inset: 0; background: rgba(34,31,27,0.35); display: flex; align-items: flex-end; justify-content: center; padding: 16px; z-index: 10; }
+.popc { width: 100%; max-width: 1240px; max-height: 90vh; overflow: auto; padding: 22px 24px; border-radius: 18px; background: var(--card); border: 1.5px solid var(--line); box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; flex-direction: column; gap: 16px; }
+.popc .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.popc .top h2 { margin: 0 0 4px; font-size: 20px; }
+.popc .top p { margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; color: var(--muted); }
+.done { flex-shrink: 0; height: 44px; padding: 0 18px; border-radius: 22px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--card); font-weight: 700; font-size: 14px; }
+.inkgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.ink { display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 5px 7px; border-radius: 10px; border: 2px solid transparent; background: #fff; text-align: left; }
+.ink[aria-pressed="true"] { border-color: var(--ink); }
+.ink .dot { width: 28px; height: 28px; }
+.ink b { display: block; font-size: 12px; line-height: 1.2; } .ink span { display: block; font-size: 10.5px; color: var(--muted); line-height: 1.25; }
+.custom { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+.custom input { width: 56px; height: 44px; padding: 2px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; }
+footer { font-size: 13px; color: var(--soft); line-height: 1.5; }
+@media (max-width: 640px) { .wrap { padding: 20px 16px 40px; } .chips { align-items: flex-start; } }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+/*CATALOG*/
+const ART = /*ART*/;
+const LOGO = /*LOGO*/;
+
+// ---------- garments ----------
+function sweatSVG(color, heather, view, uid) {
+  const front = view !== 'back';
+  const neck = front ? 'C560 190 434 190 401 64' : 'C560 86 434 86 401 64';
+  const body = 'M401 64 C330 78 232 118 190 190 C160 250 128 520 116 850 L118 940 L210 940 L212 862 C225 800 240 740 252 700 C255 760 258 820 266 862 L272 868 L282 942 L712 942 L722 868 L728 862 C736 820 739 760 742 700 C754 740 769 800 782 862 L784 940 L876 940 L878 850 C866 520 834 250 804 190 C762 118 664 78 593 64 ' + neck + ' Z';
+  const bands = 'M116 852 L212 862 L210 940 L118 940 Z M878 852 L782 862 L784 940 L876 940 Z M272 868 L722 868 L712 942 L282 942 Z';
+  const collar = front
+    ? 'M401 64 C434 190 560 190 593 64 L576 54 C548 150 446 150 418 54 Z M401 64 L414 46 C446 60 548 60 580 46 L593 64 L576 54 C548 66 446 66 418 54 Z'
+    : 'M401 64 C434 86 560 86 593 64 L583 44 C550 56 444 56 411 44 Z';
+  const inner = front ? 'M418 54 C446 150 548 150 576 54 C548 66 446 66 418 54 Z' : 'M0 0 Z';
+  const g = (o, c) => `<stop offset="${o}" stop-color="#000" stop-opacity="${c}"/>`;
+  return `<svg viewBox="100 36 800 914" aria-hidden="true" style="filter: drop-shadow(0 12px 16px rgba(0,0,0,0.18))">
+<defs><clipPath id="c${uid}"><path d="${body}"/></clipPath>
+<filter id="h${uid}" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.4 0 0 0 -0.55"/></filter>
+<linearGradient id="g${uid}" x1="0" y1="0" x2="1" y2="0">${g(0,.24)}${g(.09,.06)}${g(.15,.12)}${g(.19,.22)}${g(.3,.07)}<stop offset=".5" stop-color="#fff" stop-opacity=".05"/>${g(.7,.07)}${g(.81,.22)}${g(.85,.12)}${g(.91,.06)}${g(1,.24)}</linearGradient>
+<linearGradient id="v${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".06"/><stop offset=".25" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".1"/></linearGradient>
+<pattern id="r${uid}" width="5" height="10" patternUnits="userSpaceOnUse"><rect width="1.6" height="10" fill="rgba(0,0,0,0.18)"/></pattern></defs>
+<path d="${body}" fill="${color}"/><path d="${collar}" fill="${color}"/><path d="${inner}" fill="rgba(0,0,0,0.40)"/>
+<g clip-path="url(#c${uid})"><rect x="100" y="36" width="800" height="914" fill="url(#g${uid})"/><rect x="100" y="36" width="800" height="914" fill="url(#v${uid})"/>
+<path d="M222 132 C206 250 214 420 248 690 M772 132 C788 250 780 420 746 690" fill="none" stroke="rgba(0,0,0,0.20)" stroke-width="3" stroke-linecap="round"/>
+<path d="M150 560 C168 574 186 580 206 578 M844 560 C826 574 808 580 788 578 M140 700 C160 712 182 716 206 712 M854 700 C834 712 812 716 788 712" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="3" stroke-linecap="round"/></g>
+<g opacity="${heather ? 0.34 : 0}"><rect x="100" y="36" width="800" height="914" filter="url(#h${uid})" clip-path="url(#c${uid})"/></g>
+<path d="${bands}" fill="url(#r${uid})"/><path d="${bands}" fill="rgba(0,0,0,0.10)" stroke="rgba(0,0,0,0.26)" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="${collar}" fill="url(#r${uid})" stroke="rgba(0,0,0,0.26)" stroke-width="1.4"/><path d="${body}" fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
+}
+function teeSVG(color, heather, view, uid) {
+  const front = view !== 'back';
+  const neck = front ? 'C575 177 419 177 402 70' : 'C575 98 419 98 402 70';
+  const body = 'M402 70 C350 80 280 98 237 114 C190 140 110 190 61 226 L160 386 C178 360 196 330 211 300 C214 420 214 700 213 850 C400 856 594 856 781 850 C780 700 780 420 783 300 C798 330 816 360 834 386 L933 226 C884 190 804 140 757 114 C714 98 644 80 592 70 ' + neck + ' Z';
+  const collar = front
+    ? 'M402 70 C419 177 575 177 592 70 L578 60 C562 152 432 152 416 60 Z M402 70 L416 56 C450 66 544 66 578 56 L592 70 L578 60 C544 70 450 70 416 60 Z'
+    : 'M402 70 C419 98 575 98 592 70 L584 52 C550 64 444 64 410 52 Z';
+  const inner = front ? 'M416 60 C432 152 562 152 578 60 C544 70 450 70 416 60 Z' : 'M0 0 Z';
+  const g = (o, c) => `<stop offset="${o}" stop-color="#000" stop-opacity="${c}"/>`;
+  return `<svg viewBox="100 36 800 914" aria-hidden="true" style="filter: drop-shadow(0 12px 16px rgba(0,0,0,0.18))">
+<defs><clipPath id="c${uid}"><path d="${body}"/></clipPath>
+<filter id="h${uid}" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.4 0 0 0 -0.55"/></filter>
+<linearGradient id="g${uid}" x1="0" y1="0" x2="1" y2="0">${g(0,.22)}${g(.1,.05)}${g(.19,.1)}${g(.215,.2)}${g(.32,.06)}<stop offset=".5" stop-color="#fff" stop-opacity=".05"/>${g(.68,.06)}${g(.785,.2)}${g(.81,.1)}${g(.9,.05)}${g(1,.22)}</linearGradient>
+<linearGradient id="v${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".06"/><stop offset=".25" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".09"/></linearGradient>
+<pattern id="r${uid}" width="4" height="10" patternUnits="userSpaceOnUse"><rect width="1.2" height="10" fill="rgba(0,0,0,0.16)"/></pattern></defs>
+<path d="${body}" fill="${color}"/><path d="${collar}" fill="${color}"/><path d="${inner}" fill="rgba(0,0,0,0.40)"/>
+<g clip-path="url(#c${uid})"><rect x="0" y="36" width="994" height="914" fill="url(#g${uid})"/><rect x="0" y="36" width="994" height="914" fill="url(#v${uid})"/>
+<path d="M237 114 C232 180 222 250 211 300 M757 114 C762 180 772 250 783 300" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M81 214 L180 374 M913 214 L814 374 M213 826 C400 832 594 832 781 826" fill="none" stroke="rgba(0,0,0,0.20)" stroke-width="1.6" stroke-dasharray="5 4"/>
+<path d="M86 236 L170 371 M908 236 L824 371 M213 836 C400 842 594 842 781 836" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1.4" stroke-dasharray="5 4"/>
+<path d="M232 470 C252 482 272 486 292 484 M762 470 C742 482 722 486 702 484 M226 660 C250 672 276 676 302 672 M768 660 C744 672 718 676 692 672" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="3" stroke-linecap="round"/></g>
+<g opacity="${heather ? 0.34 : 0}"><rect x="0" y="36" width="994" height="914" filter="url(#h${uid})" clip-path="url(#c${uid})"/></g>
+<path d="${collar}" fill="url(#r${uid})" stroke="rgba(0,0,0,0.26)" stroke-width="1.4" stroke-linejoin="round"/><path d="${body}" fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
+}
+
+// ---------- art ----------
+function paint(body, i1, i2, bg) {
+  return body.replace(/var\(--i1(?:, [^)]*)?\)/g, i1).replace(/var\(--i2(?:, [^)]*)?\)/g, i2).replace(/var\(--bg(?:, [^)]*)?\)/g, bg);
+}
+function artSVG(a, i1, i2, bg, attrs) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${a.vb}" ${attrs || ''}>${paint(a.body, i1, i2, bg)}</svg>`;
+}
+
+// ---------- state ----------
+const S = {};
+const set = (p) => { Object.assign(S, p); render(); };
+const reset = { preset: 0, shirt: undefined, ink1: undefined, ink2: undefined, one: undefined, swap: false, big: undefined, sides: undefined };
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+function compute() {
+  const key = S.design || 'onmission';
+  const di = Math.max(0, D.findIndex((x) => x.k === key));
+  const d = D[di];
+  const p = d.P[S.preset ?? 0] || d.P[0];
+  const find = (arr, k) => arr.find((x) => x.k === k) || arr[0];
+  const shirt = find(SHIRTS, S.shirt ?? p[0]);
+  const findInk = (k) => (typeof k === 'string' && k[0] === '#') ? { k, n: 'Custom color', hex: k, code: 'ask printer for nearest PMS' } : find(INKS, k);
+  const ink1 = findInk(S.ink1 ?? p[1]);
+  const ink2r = findInk(S.ink2 ?? p[2]);
+  const one = S.one ?? !!p[3];
+  const ink2 = one ? ink1 : ink2r;
+  const either = d.sides === 'either';
+  const twoSided = d.sides === 2 || (either && (S.sides ?? d.defSides) === 2);
+  const artKey = (!twoSided && d.art1) ? d.art1 : d.k;
+  const avb = ART[artKey].vb.split(/\s+/).map(Number);
+  const dAr = avb[3] / avb[2];
+  let msgFront = twoSided ? (either ? false : d.msgFront) : true;
+  if (twoSided && S.swap) msgFront = !msgFront;
+  const big = S.big ?? true;
+  const youth = !!S.youth;
+  const guide = !!S.guide;
+  const tee = S.garment === 'tee';
+  const U = tee ? (youth ? 780 / 23.5 : 26) : (youth ? 880 / 23 : 880 / 29);
+  const up = tee ? (youth ? 0.5 : 1) : 0;
+  const sc = 500 / 800, OY = 16, OX = 50, CX = 497;
+  const X = (u) => OX + (u - 100) * sc;
+  const Y = (v) => (v - 36) * sc + OY;
+  const FC = tee ? 150 : 158, BC = tee ? 91 : 80;
+  const pwIn = youth ? 9 : 12;
+  const pwU = pwIn * U;
+  const artW = pwU * sc;
+  const msgDrop = (msgFront ? (youth ? 3 : 4) : (youth ? 2.5 : 3.5)) - up;
+  const msgL = (msgFront ? 0 : 640) + X(CX - pwU / 2);
+  const msgT = Y((msgFront ? FC : BC) + msgDrop * U);
+  const logoLayout = d.logo || 'stacked';
+  const st = logoLayout === 'stacked';
+  const lf = !msgFront;
+  const logoIn = big ? pwIn : (lf ? (youth ? 3.5 : 4) : (st ? (youth ? 3.5 : 4.5) : (youth ? 8 : 10)));
+  let lcx = CX, ldrop;
+  if (lf) { if (big) { ldrop = (youth ? 3 : 4) - up; } else { ldrop = (youth ? 2.5 : 3) - (tee ? 0.5 : 0); lcx = CX + (youth ? 3.25 : 4) * U; } }
+  else { ldrop = big ? (youth ? 2.5 : 3.5) - up : (youth ? 2 : 2.5) - (tee ? 0.5 : 0); }
+  const lwU = logoIn * U;
+  const logoW = lwU * sc;
+  const logoL = (lf ? 0 : 640) + X(lcx - lwU / 2);
+  const logoT = Y((lf ? FC : BC) + ldrop * U);
+  const lAr = st ? 233 / 564 : 75 / 1626;
+  const gw = (youth ? 10 : 12) * U * sc, gh = (youth ? 12 : 14) * U * sc;
+  const gF = { l: X(CX) - gw / 2, t: Y(FC + ((youth ? 3 : 4) - up) * U), w: gw, h: gh };
+  const gB = { l: 640 + X(CX) - gw / 2, t: Y(BC + ((youth ? 2.5 : 3.5) - up) * U), w: gw, h: gh };
+  const msgSpec = { a: 'Design · ' + pwIn + '″ wide × ' + (pwIn * dAr).toFixed(1) + '″ tall', b: 'Centered; top edge ' + msgDrop + '″ below the collar seam' };
+  const logoSpec = {
+    a: (st ? 'Stacked' : 'Flat') + ' logo · ' + logoIn + '″ wide × ' + (logoIn * lAr).toFixed(1) + '″ tall',
+    b: big ? 'Centered; top edge ' + ldrop + '″ below the collar seam'
+      : (lf ? 'Left chest, centered ' + (youth ? 3.25 : 4) + '″ off center; top edge ' + ldrop + '″ below the collar seam' : 'Upper back, centered; top edge ' + ldrop + '″ below the collar seam')
+  };
+  const blank = { a: 'No print', b: 'One-sided design' };
+  const frontSpec = msgFront ? msgSpec : logoSpec;
+  const backSpec = msgFront ? (twoSided ? logoSpec : blank) : msgSpec;
+  let dn = 0;
+  const nums = D.map((x) => x.num || String(++dn).padStart(2, '0'));
+  const placeText = (tee ? (youth ? 'Youth L tee shown · body about 18″ × 23½″' : 'Adult L tee shown · body about 22″ × 30″') : (youth ? 'Youth L shown · body about 19″ × 23″' : 'Adult L shown · body about 24″ × 29″')) + ' · drawn to scale';
+  return { d, di, nums, shirt, ink1, ink2, ink2r, one, either, twoSided, msgFront, big, youth, guide, tee, artW, msgL, msgT, logoLayout, logoW, logoL, logoT, gF, gB, frontSpec, backSpec, artKey, placeText, pwIn, dAr, logoIn, lAr, st };
+}
+
+function render() {
+  const c = compute();
+  const { d, shirt, ink1, ink2, ink2r, one } = c;
+  const G = c.tee ? teeSVG : sweatSVG;
+  const art = ART[c.artKey];
+  const pres = d.P.map((q, i) => {
+    const S1 = SHIRTS.find((x) => x.k === q[0]), A = INKS.find((x) => x.k === q[1]), B = INKS.find((x) => x.k === q[2]);
+    const active = shirt.k === S1.k && ink1.k === A.k && (q[3] ? one : (!one && ink2r.k === B.k));
+    return `<button class="preset" data-preset="${i}" aria-pressed="${active}"><span class="pv" style="background:${S1.hex}"><i style="background:${A.hex}"></i><i style="background:${q[3] ? A.hex : B.hex}"></i></span>${esc(S1.n + ' · ' + A.n + (q[3] ? ' (1 color)' : ' + ' + B.n))}</button>`;
+  }).join('');
+  const opt = (label, on, act) => `<button class="pill" data-act="${act}" aria-pressed="${!!on}">${label}</button>`;
+  let opts = opt(c.youth ? 'Youth (9″ print)' : 'Adult (12″ print)', c.youth, 'youth') + opt(one ? 'One color: on' : 'One color: off', one, 'one');
+  if (c.either) opts += opt(c.twoSided ? 'Two sides' : 'One side', c.twoSided, 'sides');
+  if (c.twoSided) { opts += opt(c.msgFront ? 'Design on front' : 'Design on back', !!S.swap, 'swap') + opt(c.big ? 'Logo: large' : 'Logo: small', c.big, 'big'); }
+  opts += opt(c.guide ? 'Max print area: on' : 'Max print area: off', c.guide, 'guide');
+  const slot = S.open || null;
+  const cur = slot === 'ink2' ? ink2r : ink1;
+  const logoHTML = c.twoSided ? `<div class="abs" style="left:${c.logoL}px;top:${c.logoT}px;width:${c.logoW}px">${artSVG(LOGO[c.logoLayout], ink1.hex, ink2.hex, shirt.hex)}</div>` : '';
+  const guides = c.guide ? [c.gF, c.gB].map((g) => `<div class="guide" style="left:${g.l}px;top:${g.t}px;width:${g.w}px;height:${g.h}px"></div>`).join('') : '';
+  document.getElementById('app').innerHTML = `
+<div class="picker"><span class="label" style="margin-right:8px">Choose a design</span>${D.map((x, i) => `<button class="pick" data-design="${x.k}" aria-pressed="${x.k === d.k}" title="${esc(x.t)}" aria-label="${esc(x.t)}">${c.nums[i]}</button>`).join('')}</div>
+<div class="head"><div><div class="eyebrow">Option ${c.nums[c.di]} · ${c.tee ? 'Gildan 64000 Softstyle tee' : 'Gildan 18000 crewneck'}</div><h1>${esc(d.t)}</h1><p class="desc">${esc(d.b)}</p></div>
+<div class="chips"><div><span class="chip dark">${one ? 1 : 2}-color print</span><span class="chip">${c.twoSided ? '2 sides' : '1 side'}</span></div><div class="place">${c.placeText}</div></div></div>
+<div class="stageBox" id="stageBox"><div class="stage" id="stage">
+<div class="panel" style="left:0"></div><div class="panel" style="left:640px"></div>
+<div class="abs" style="left:50px;top:16px;width:500px">${G(shirt.hex, shirt.heather, 'front', 'f')}</div>
+<div class="abs" style="left:690px;top:16px;width:500px">${G(shirt.hex, shirt.heather, 'back', 'b')}</div>
+<div class="abs" style="left:${c.msgL}px;top:${c.msgT}px;width:${c.artW}px">${artSVG(art, ink1.hex, ink2.hex, shirt.hex)}</div>
+${logoHTML}${guides}
+<div class="tag" style="left:18px">FRONT</div><div class="tag" style="left:658px">BACK</div>
+<div class="spec" style="left:24px"><b>${c.frontSpec.a}</b><span>${c.frontSpec.b}</span></div>
+<div class="spec" style="left:664px"><b>${c.backSpec.a}</b><span>${c.backSpec.b}</span></div>
+</div></div>
+<div class="controls">
+<div class="col"><div class="seg" role="group" aria-label="Garment"><button class="pill sm" data-garment="sweat" aria-pressed="${!c.tee}">Sweatshirt · 18000</button><button class="pill sm" data-garment="tee" aria-pressed="${c.tee}">T-shirt · 64000</button></div>
+<div style="font-size:15px;font-weight:600">${shirt.n}</div><div class="swatches">${SHIRTS.map((x) => `<button class="sw" data-shirt="${x.k}" aria-pressed="${x.k === shirt.k}" title="${x.n}" aria-label="${x.n}"><span style="background:${x.hex}"></span></button>`).join('')}</div></div>
+<div class="col"><div class="label">Ink 1 · type &amp; “New Vision”</div><button class="inkbtn" data-open="ink1" aria-label="Change ink 1, currently ${esc(ink1.n)}"><span class="dot" style="background:${ink1.hex}"></span><span class="t"><b>${esc(ink1.n)}</b><span>${ink1.hex.toUpperCase()} · ${esc(ink1.code)}</span></span><span class="change">Change</span></button></div>
+<div class="col" style="opacity:${one ? 0.45 : 1}"><div class="label">Ink 2 · accents &amp; “Fellowship”</div><button class="inkbtn" data-open="ink2" aria-label="Change ink 2"><span class="dot" style="background:${(one ? ink1 : ink2r).hex}"></span><span class="t"><b>${one ? 'Same as ink 1' : esc(ink2r.n)}</b><span>${one ? 'Turn off one-color to choose' : ink2r.hex.toUpperCase() + ' · ' + esc(ink2r.code)}</span></span><span class="change">Change</span></button></div>
+<div class="col"><div class="label">Print options</div><div class="seg">${opts}</div></div>
+</div>
+<div class="presets"><span class="label" style="margin-right:4px">Recommended</span>${pres}</div>
+<div class="dl"><button class="pill" data-act="download" aria-pressed="false">Download print files (.zip)</button><span class="note">Vector SVGs of this design and logo in the current inks, black ink separations, a flat mockup, and a print spec sheet.</span></div>
+<footer>NVF Christmas Stroll volunteer shirts · New Vision Fellowship, Madison NC. Mockups are drawn to scale; screen colors are approximate, so check final ink colors against your printer’s PMS ink book.</footer>
+${slot ? `<div class="pop" data-close="1"><div class="popc" role="dialog" aria-modal="true" aria-label="Choose ink">
+<div class="top"><div><h2>${slot === 'ink2' ? 'Choose Ink 2 · accents &amp; “Fellowship”' : 'Choose Ink 1 · type &amp; “New Vision”'}</h2><p>Common screen-print inks by Pantone (PMS) number, with NVF brand colors matched to their closest PMS. Screens show these colors only approximately, so check the final colors against your printer’s ink book.</p></div><button class="done" data-close="1">Done</button></div>
+<div class="inkgrid">${INKS.map((x) => `<button class="ink" data-ink="${x.k}" aria-pressed="${x.k === cur.k && !(slot === 'ink2' && one)}"><span class="dot" style="background:${x.hex}"></span><span><b>${esc(x.n)}</b><span>${esc(x.code)}</span><span>${x.hex.toUpperCase()}</span></span></button>`).join('')}</div>
+<div class="custom"><label for="ink-custom"><b>Custom color</b></label><input id="ink-custom" type="color" value="${cur.hex}"><span>Pick any color, then ask your printer for the closest PMS ink. Current: ${cur.hex.toUpperCase()}</span></div>
+</div></div>` : ''}`;
+  fit();
+}
+
+function fit() {
+  const box = document.getElementById('stageBox'), st = document.getElementById('stage');
+  if (!box || !st) return;
+  const k = Math.min(1, box.clientWidth / 1240);
+  st.style.transform = `scale(${k})`; box.style.height = (660 * k) + 'px';
+}
+window.addEventListener('resize', fit);
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button, .pop');
+  if (!b) return;
+  const ds = b.dataset;
+  if (b.classList.contains('pop') && e.target !== b) return;
+  if (ds.close) return set({ open: null });
+  if (ds.design) return set({ ...reset, design: ds.design });
+  if (ds.garment) return set({ garment: ds.garment });
+  if (ds.shirt) return set({ shirt: ds.shirt });
+  if (ds.preset) return set({ preset: +ds.preset, shirt: undefined, ink1: undefined, ink2: undefined, one: undefined });
+  if (ds.open) return set({ open: ds.open });
+  if (ds.ink) { const slot = S.open; return set(slot === 'ink2' ? { ink2: ds.ink, one: false, open: null } : { ink1: ds.ink, open: null }); }
+  const c = compute();
+  switch (ds.act) {
+    case 'youth': return set({ youth: !c.youth });
+    case 'one': return set({ one: !c.one });
+    case 'sides': return set({ sides: c.twoSided ? 1 : 2, swap: false });
+    case 'swap': return set({ swap: !S.swap });
+    case 'big': return set({ big: !c.big });
+    case 'guide': return set({ guide: !c.guide });
+    case 'download': return download();
+  }
+});
+document.addEventListener('change', (e) => {
+  if (e.target.id === 'ink-custom') { const v = e.target.value; set(S.open === 'ink2' ? { ink2: v, one: false } : { ink1: v }); }
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.open) set({ open: null }); });
+
+// ---------- downloads ----------
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(u) { let c = 0xffffffff; for (let i = 0; i < u.length; i++) c = CRC[(c ^ u[i]) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; }
+function zip(files) {
+  const te = new TextEncoder(); const parts = []; const cen = []; let off = 0;
+  const d = new Date(); const dt = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate(); const tm = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+  for (const f of files) {
+    const name = te.encode(f.name); const data = te.encode(f.data); const crc = crc32(data);
+    const lh = new Uint8Array(30 + name.length); const v = new DataView(lh.buffer);
+    v.setUint32(0, 0x04034b50, true); v.setUint16(4, 20, true); v.setUint16(6, 0x0800, true); v.setUint16(10, tm, true); v.setUint16(12, dt, true);
+    v.setUint32(14, crc, true); v.setUint32(18, data.length, true); v.setUint32(22, data.length, true); v.setUint16(26, name.length, true); lh.set(name, 30);
+    const ch = new Uint8Array(46 + name.length); const w = new DataView(ch.buffer);
+    w.setUint32(0, 0x02014b50, true); w.setUint16(4, 20, true); w.setUint16(6, 20, true); w.setUint16(8, 0x0800, true); w.setUint16(12, tm, true); w.setUint16(14, dt, true);
+    w.setUint32(16, crc, true); w.setUint32(20, data.length, true); w.setUint32(24, data.length, true); w.setUint16(28, name.length, true); w.setUint32(42, off, true); ch.set(name, 46);
+    parts.push(lh, data); cen.push(ch); off += lh.length + data.length;
+  }
+  const cenLen = cen.reduce((a, b) => a + b.length, 0);
+  const e = new Uint8Array(22); const ev = new DataView(e.buffer);
+  ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, files.length, true); ev.setUint16(10, files.length, true); ev.setUint32(12, cenLen, true); ev.setUint32(16, off, true);
+  return new Blob([...parts, ...cen, e], { type: 'application/zip' });
+}
+function download() {
+  const c = compute();
+  const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const a = ART[c.artKey];
+  const wIn = c.pwIn, hIn = (c.pwIn * c.dAr);
+  const sized = (w, h) => `width="${w.toFixed(3)}in" height="${h.toFixed(3)}in"`;
+  const files = [];
+  const base = slug(c.d.t);
+  const x1 = c.ink1.hex, x2 = c.ink2.hex;
+  files.push({ name: `print/${base}-design.svg`, data: artSVG(a, x1, x2, 'none', sized(wIn, hIn)) });
+  files.push({ name: `separations/${base}-design-ink1-${slug(c.ink1.n)}.svg`, data: artSVG(a, '#000000', '#ffffff', 'none', sized(wIn, hIn)) });
+  if (!c.one) files.push({ name: `separations/${base}-design-ink2-${slug(c.ink2.n)}.svg`, data: artSVG(a, '#ffffff', '#000000', 'none', sized(wIn, hIn)) });
+  if (c.twoSided) {
+    const L = LOGO[c.logoLayout]; const lh = c.logoIn * c.lAr;
+    files.push({ name: `print/nvf-logo-${c.logoLayout}.svg`, data: artSVG(L, x1, x2, 'none', sized(c.logoIn, lh)) });
+    files.push({ name: `separations/nvf-logo-ink1-${slug(c.ink1.n)}.svg`, data: artSVG(L, '#000000', '#ffffff', 'none', sized(c.logoIn, lh)) });
+    if (!c.one) files.push({ name: `separations/nvf-logo-ink2-${slug(c.ink2.n)}.svg`, data: artSVG(L, '#ffffff', '#000000', 'none', sized(c.logoIn, lh)) });
+  }
+  const st = document.getElementById('stage').cloneNode(true);
+  st.querySelectorAll('.tag, .spec, .guide').forEach((n) => n.remove());
+  let mock = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 660" width="1240" height="660"><rect width="600" height="660" rx="20" fill="#e9e2d5"/><rect x="640" width="600" height="660" rx="20" fill="#e9e2d5"/>`;
+  st.querySelectorAll('.abs').forEach((n) => {
+    const s = n.querySelector('svg'); const w = parseFloat(n.style.width); const vb = s.getAttribute('viewBox').split(/\s+/).map(Number);
+    const h = w * vb[3] / vb[2];
+    mock += s.outerHTML.replace('<svg', `<svg overflow="visible" x="${parseFloat(n.style.left)}" y="${parseFloat(n.style.top) || 0}" width="${w}" height="${h}"`).replace(/ style="filter:[^"]*"/, '');
+  });
+  files.push({ name: `mockups/${base}-${c.tee ? 'tee' : 'sweatshirt'}-mockup.svg`, data: mock + '</svg>' });
+  const g = c.tee ? 'Gildan 64000 Softstyle T-shirt' : 'Gildan 18000 Heavy Blend crewneck sweatshirt';
+  files.push({ name: 'print-specs.txt', data: [
+    `NVF Christmas Stroll · ${c.d.t}`, '', `Garment: ${g} · ${c.shirt.n}`, `Sizing shown: ${c.youth ? 'Youth' : 'Adult'}`,
+    `Ink 1: ${c.ink1.n} · ${c.ink1.code} · ${c.ink1.hex.toUpperCase()}`,
+    c.one ? 'Ink 2: none (one-color print)' : `Ink 2: ${c.ink2.n} · ${c.ink2.code} · ${c.ink2.hex.toUpperCase()}`, '',
+    `FRONT: ${c.frontSpec.a} — ${c.frontSpec.b}`, `BACK: ${c.backSpec.a} — ${c.backSpec.b}`, '',
+    'All type is converted to outlines; no fonts are needed. Areas with no ink are open so the shirt color shows through.',
+    'Separations: black = ink, white/empty = no ink. Files in print/ are sized to the print dimensions above.'
+  ].join('\r\n') });
+  const blob = zip(files);
+  const u = URL.createObjectURL(blob); const l = document.createElement('a');
+  l.href = u; l.download = `nvf-${base}-${slug(c.shirt.n)}-${c.tee ? 'tee' : 'sweatshirt'}.zip`; document.body.appendChild(l); l.click(); l.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 4000);
+}
+render();
+</script>
+</body>
+</html>

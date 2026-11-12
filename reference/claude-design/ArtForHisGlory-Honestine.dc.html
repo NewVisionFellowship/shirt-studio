@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>For His Glory — alternative (Same Old English JNL + Honestine Signature)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@font-face{font-family:"Same Old English JNL";src:url(/_blob/88220ab2190ad42ef6097bf582bb7b42) format("opentype");font-display:block}
+@font-face{font-family:"Honestine Signature";src:url(/_blob/6a052ad118c96218911a8f031ea93a4e) format("opentype");font-display:block}
+</style>
+</helmet>
+<div style="width: {{w}}px; height: {{h}}px; background: {{bgFill}}; line-height: 0">
+<svg viewBox="0 0 1000 900" style="width: 100%; height: 100%; display: block" role="img" aria-label="For His Glory. Love and truth in action">
+<defs>
+<clipPath id="fg-front">
+<polygon points="186,146 270,146 270,178 238,212 202,201 186,195"></polygon>
+<rect x="618" y="325" width="72" height="80"></rect>
+<rect x="158" y="528" width="38" height="64"></rect>
+</clipPath>
+<g id="fg-black" style="font-family: 'Same Old English JNL', serif">
+<text x="70" y="360" style="font-size: 284px">For</text>
+<text x="549" y="360" style="font-size: 284px">His</text>
+<text x="90" y="700" style="font-size: 364px">Glory</text>
+</g>
+<g id="fg-script" style="font-family: 'Honestine Signature', cursive">
+<text x="115.4" y="360" style="font-size: 235.6px">F</text>
+<text x="324.1" y="360" style="font-size: 235.6px">o</text>
+<text x="446.8" y="360" style="font-size: 235.6px">r</text>
+<text x="513.7" y="360" style="font-size: 235.6px">H</text>
+<text x="772.8" y="360" style="font-size: 235.6px">i</text>
+<text x="860.1" y="360" style="font-size: 235.6px">s</text>
+<text x="130.8" y="700" style="font-size: 297.1px">G</text>
+<text x="408.2" y="700" style="font-size: 297.1px">l</text>
+<text x="512.3" y="700" style="font-size: 297.1px">o</text>
+<text x="668.8" y="700" style="font-size: 297.1px">r</text>
+<text x="826.4" y="700" style="font-size: 297.1px">y</text>
+</g>
+<g id="fg-conn" style="fill: none; stroke-linecap: round">
+<path d="M360 268 C388 272 420 292 442 318" style="stroke-width: 5.5"></path>
+<path d="M560 584 C594 590 636 614 661 642" style="stroke-width: 5.5"></path>
+<path d="M736 584 C762 596 792 610 817 618" style="stroke-width: 5.5"></path>
+</g>
+<clipPath id="fg-ends">
+<circle cx="360" cy="268" r="14"></circle>
+<circle cx="442" cy="318" r="14"></circle>
+<circle cx="560" cy="584" r="14"></circle>
+<circle cx="661" cy="642" r="14"></circle>
+<circle cx="736" cy="584" r="14"></circle>
+<circle cx="817" cy="618" r="14"></circle>
+</clipPath>
+</defs>
+<use href="#fg-conn" style="stroke: {{ink2}}"></use>
+<use href="#fg-black" style="fill: {{ink1}}; stroke: {{bg}}; stroke-width: 8px; paint-order: stroke"></use>
+<g style="stroke-linejoin: round; stroke-linecap: round">
+<use href="#fg-script" style="fill: {{bg}}; stroke: {{bg}}; stroke-width: 10px"></use>
+<use href="#fg-conn" style="stroke: {{ink2}}; clip-path: url(#fg-ends)"></use>
+<use href="#fg-script" style="fill: {{ink2}}; stroke: none"></use>
+</g>
+<g style="clip-path: url(#fg-front); stroke-linejoin: round">
+<use href="#fg-black" style="fill: {{ink1}}; stroke: {{bg}}; stroke-width: 8px; paint-order: stroke"></use>
+</g>
+<path d="M70 790 C74 818 82 826 110 830 C82 834 74 842 70 870 C66 842 58 834 30 830 C58 826 66 818 70 790 Z" style="fill: {{ink2}}"></path>
+<line x1="140" y1="790" x2="960" y2="790" style="stroke: {{ink1}}; stroke-width: 3"></line>
+<text x="140" y="852" textLength="820" lengthAdjust="spacing" style="font-family: Archivo, sans-serif; font-weight: 700; font-stretch: 112%; font-size: 36px; fill: {{ink1}}">LOVE &amp; TRUTH IN ACTION</text>
+</svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ink1":{"editor":"color","default":"#eee3c8","options":["#eee3c8","#ffffff","#bdb9b2","#24201d"]},"ink2":{"editor":"color","default":"#b3852b","options":["#b3852b","#74ca33","#5f9a32","#ffffff"]},"bg":{"editor":"color","default":"#35493b","options":["#35493b","#5b2c35","#232b40","#1c1c1e"]},"showBg":{"editor":"boolean","default":true},"w":{"editor":"int","default":1000,"min":100,"max":4000},"$preview":{"width":1000,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w ?? 1000);
+    const bg = this.props.bg ?? '#35493b';
+    const showBg = this.props.showBg ?? true;
+    return { w, h: w * 0.9, ink1: this.props.ink1 ?? '#eee3c8', ink2: this.props.ink2 ?? '#b3852b', bg, bgFill: showBg ? bg : 'transparent' };
+  }
+}
+</script>
+</body>
+</html>

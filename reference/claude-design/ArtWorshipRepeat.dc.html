@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eat Sleep Worship Repeat — artwork</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: {{w}}px; height: {{h}}px; background: {{bgFill}}; line-height: 0; position: relative">
+<svg viewBox="0 0 1000 690" style="width: 100%; height: 100%; display: block" role="img" aria-label="Eat. Sleep. Worship. Repeat.">
+<defs>
+<filter id="er-n" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="4" seed="21"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -14 0 0 0 4.6"></feColorMatrix></filter>
+<filter id="er-g" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" seed="3"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -14 0 0 0 4.2"></feColorMatrix></filter>
+<mask id="er-m" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="690">
+<rect width="1000" height="690" style="fill: #fff"></rect>
+<rect width="1000" height="690" style="filter: url(#er-n); opacity: {{dOp}}"></rect>
+<rect width="1000" height="690" style="filter: url(#er-g); opacity: {{dOp}}"></rect>
+</mask>
+</defs>
+<g style="mask: url(#er-m); font-family: 'Bebas Neue', sans-serif; font-size: 158px">
+<text x="40" y="152" textLength="200" lengthAdjust="spacingAndGlyphs" style="fill: {{ink1}}">EAT</text>
+<rect x="264" y="42" width="696" height="110" style="fill: {{ink1}}"></rect>
+<text x="40" y="292" textLength="330" lengthAdjust="spacingAndGlyphs" style="fill: {{ink2}}">SLEEP</text>
+<rect x="394" y="182" width="566" height="110" style="fill: {{ink2}}"></rect>
+<text x="40" y="432" textLength="470" lengthAdjust="spacingAndGlyphs" style="fill: {{ink1}}">WORSHIP</text>
+<rect x="534" y="322" width="426" height="110" style="fill: {{ink1}}"></rect>
+<text x="40" y="572" textLength="400" lengthAdjust="spacingAndGlyphs" style="fill: {{ink2}}">REPEAT</text>
+<rect x="464" y="462" width="496" height="110" style="fill: {{ink2}}"></rect>
+</g>
+</svg>
+<div style="position: absolute; left: {{lx}}px; top: {{ly}}px">
+<dc-import name="Logo" layout="horizontal" w="{{lw}}" c1="{{ink1}}" c2="{{ink2}}" hint-size="{{lh}}"></dc-import>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ink1":{"editor":"color","default":"#74ca33","options":["#74ca33","#eee3c8","#24201d","#ffffff"]},"ink2":{"editor":"color","default":"#ffffff","options":["#ffffff","#5f9a32","#74ca33","#b3852b"]},"bg":{"editor":"color","default":"#1c1c1e","options":["#1c1c1e","#a3a3a1","#35493b","#232b40"]},"showBg":{"editor":"boolean","default":true},"distress":{"editor":"boolean","default":true},"w":{"editor":"int","default":1000,"min":100,"max":4000},"$preview":{"width":1000,"height":690}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w ?? 1000), s = w / 1000;
+    const bg = this.props.bg ?? '#1c1c1e';
+    const showBg = this.props.showBg ?? true;
+    const lw = 920 * s;
+    return { w, h: w * 0.69, ink1: this.props.ink1 ?? '#74ca33', ink2: this.props.ink2 ?? '#ffffff', bg, bgFill: showBg ? bg : 'transparent', dOp: (this.props.distress ?? true) ? 1 : 0, lx: 40 * s, ly: 606 * s, lw, lh: lw + 'px,' + (lw * 75 / 1626) + 'px' };
+  }
+}
+</script>
+</body>
+</html>

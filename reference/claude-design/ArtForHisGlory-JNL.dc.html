@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>For His Glory — alternative (Same Old English JNL + Blanc Seing)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@font-face{font-family:"Same Old English JNL";src:url(/_blob/88220ab2190ad42ef6097bf582bb7b42) format("opentype");font-display:block}
+@font-face{font-family:"Blanc Seing";font-weight:700;src:url(/_blob/5ca086aef0c22ad583aece9a97a4b343) format("truetype");font-display:block}
+</style>
+</helmet>
+<div style="width: {{w}}px; height: {{h}}px; background: {{bgFill}}; line-height: 0">
+<svg viewBox="0 0 1000 900" style="width: 100%; height: 100%; display: block" role="img" aria-label="For His Glory. Love and truth in action">
+<defs>
+<clipPath id="fg-weave">
+<rect x="210" y="40" width="90" height="740"></rect>
+<rect x="700" y="40" width="90" height="740"></rect>
+</clipPath>
+<g id="fg-black" style="font-family: 'Same Old English JNL', serif">
+<text x="70" y="360" style="font-size: 284px">For</text>
+<text x="549" y="360" style="font-size: 284px">His</text>
+<text x="90" y="700" style="font-size: 364px">Glory</text>
+</g>
+<g id="fg-script" style="font-family: 'Blanc Seing', cursive; font-weight: 700">
+<text x="130" y="330" transform="rotate(-5 280 280)" style="font-size: 175px; letter-spacing: 48px">For</text>
+<text x="589" y="330" transform="rotate(-5 740 280)" style="font-size: 175px; letter-spacing: 42px">His</text>
+<g transform="rotate(-5 500 620)">
+<text x="230" y="670" style="font-size: 220px; letter-spacing: 60px">Gl</text>
+<text x="561" y="670" style="font-size: 220px">ory</text>
+</g>
+</g>
+</defs>
+<use href="#fg-black" style="fill: {{ink1}}"></use>
+<g style="stroke-linejoin: round; stroke-linecap: round">
+<use href="#fg-script" style="fill: {{bg}}; stroke: {{bg}}; stroke-width: 10px"></use>
+<use href="#fg-script" style="fill: {{ink2}}; stroke: none"></use>
+</g>
+<g style="clip-path: url(#fg-weave); stroke-linejoin: round">
+<use href="#fg-black" style="fill: {{ink1}}; stroke: {{bg}}; stroke-width: 10px; paint-order: stroke"></use>
+</g>
+<path d="M70 790 C74 818 82 826 110 830 C82 834 74 842 70 870 C66 842 58 834 30 830 C58 826 66 818 70 790 Z" style="fill: {{ink2}}"></path>
+<line x1="140" y1="790" x2="960" y2="790" style="stroke: {{ink1}}; stroke-width: 3"></line>
+<text x="140" y="852" textLength="820" lengthAdjust="spacing" style="font-family: Archivo, sans-serif; font-weight: 700; font-stretch: 112%; font-size: 36px; fill: {{ink1}}">LOVE &amp; TRUTH IN ACTION</text>
+</svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ink1":{"editor":"color","default":"#eee3c8","options":["#eee3c8","#ffffff","#bdb9b2","#24201d"]},"ink2":{"editor":"color","default":"#b3852b","options":["#b3852b","#74ca33","#5f9a32","#ffffff"]},"bg":{"editor":"color","default":"#35493b","options":["#35493b","#5b2c35","#232b40","#1c1c1e"]},"showBg":{"editor":"boolean","default":true},"w":{"editor":"int","default":1000,"min":100,"max":4000},"$preview":{"width":1000,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w ?? 1000);
+    const bg = this.props.bg ?? '#35493b';
+    const showBg = this.props.showBg ?? true;
+    return { w, h: w * 0.9, ink1: this.props.ink1 ?? '#eee3c8', ink2: this.props.ink2 ?? '#b3852b', bg, bgFill: showBg ? bg : 'transparent' };
+  }
+}
+</script>
+</body>
+</html>

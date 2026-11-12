@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sweatshirt mockup</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Source+Serif+4:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="position: relative; width: 1320px; height: {{rootH}}px; box-sizing: border-box; padding: 34px 40px; background: #f4f1eb; font-family: Archivo, system-ui, sans-serif; color: #221f1b; display: flex; flex-direction: column; gap: 20px">
+<sc-if value="{{showPicker}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6d675b; margin-right: 8px">Choose a design</span>
+<sc-for list="{{designs}}" as="it" hint-placeholder-count="12">
+<button type="button" onClick="{{it.pick}}" aria-label="{{it.name}}" title="{{it.name}}" style="width: 48px; height: 44px; border-radius: 22px; border: 1.5px solid {{it.border}}; background: {{it.bg}}; color: {{it.fg}}; font-family: Archivo, sans-serif; font-weight: 700; font-size: 15px; cursor: pointer">{{it.num}}</button>
+</sc-for>
+</div>
+</sc-if>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<div style="font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #42701f">Option {{num}} · {{garmentLabel}}</div>
+<h1 style="margin: 0; font-size: 42px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.05">{{d.t}}</h1>
+<p style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; line-height: 1.4; color: #4a443d; max-width: 780px">{{d.b}}</p>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0">
+<div style="display: flex; gap: 8px">
+<span style="padding: 7px 14px; border-radius: 16px; background: #221f1b; color: #faf7f1; font-size: 14px; font-weight: 700">{{chipColors}}</span>
+<span style="padding: 7px 14px; border-radius: 16px; background: #e9e2d5; color: #221f1b; font-size: 14px; font-weight: 700">{{chipSides}}</span>
+</div>
+<div style="font-size: 14px; color: #4a443d">{{placeText}}</div>
+</div>
+</div>
+<div data-dl="stage" style="position: relative; width: 1240px; height: 660px; flex-shrink: 0">
+<div data-dl-skip="1" style="position: absolute; left: 0; top: 0; width: 600px; height: 660px; border-radius: 20px; background: #e9e2d5"></div>
+<div data-dl-skip="1" style="position: absolute; left: 640px; top: 0; width: 600px; height: 660px; border-radius: 20px; background: #e9e2d5"></div>
+<sc-if value="{{sweat}}" hint-placeholder-val="{{true}}">
+<div style="position: absolute; left: 50px; top: 16px"><dc-import name="Sweatshirt" color="{{shirt.hex}}" heather="{{shirt.heather}}" view="front" w="500" hint-size="500px,571px"></dc-import></div>
+<div style="position: absolute; left: 690px; top: 16px"><dc-import name="Sweatshirt" color="{{shirt.hex}}" heather="{{shirt.heather}}" view="back" w="500" hint-size="500px,571px"></dc-import></div>
+</sc-if>
+<sc-if value="{{tee}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 50px; top: 16px"><dc-import name="Tshirt" color="{{shirt.hex}}" heather="{{shirt.heather}}" view="front" w="500" hint-size="500px,571px"></dc-import></div>
+<div style="position: absolute; left: 690px; top: 16px"><dc-import name="Tshirt" color="{{shirt.hex}}" heather="{{shirt.heather}}" view="back" w="500" hint-size="500px,571px"></dc-import></div>
+</sc-if>
+<div data-dl-skip="1" style="position: absolute; left: 24px; top: 598px; width: 552px; display: flex; flex-direction: column; gap: 4px; line-height: 1.35">
+<div style="font-size: 16px; font-weight: 700; color: #221f1b">{{frontSpec.a}}</div>
+<div style="font-size: 14px; color: #4a443d">{{frontSpec.b}}</div>
+</div>
+<div data-dl-skip="1" style="position: absolute; left: 664px; top: 598px; width: 552px; display: flex; flex-direction: column; gap: 4px; line-height: 1.35">
+<div style="font-size: 16px; font-weight: 700; color: #221f1b">{{backSpec.a}}</div>
+<div style="font-size: 14px; color: #4a443d">{{backSpec.b}}</div>
+</div>
+<div data-dl-skip="1" style="position: absolute; left: 18px; top: 18px; padding: 6px 12px; border-radius: 14px; background: rgba(250,247,241,0.92); font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #221f1b">FRONT</div>
+<div data-dl-skip="1" style="position: absolute; left: 658px; top: 18px; padding: 6px 12px; border-radius: 14px; background: rgba(250,247,241,0.92); font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #221f1b">BACK</div>
+<div data-dl="msg" style="position: absolute; left: {{msgL}}px; top: {{msgT}}px; width: {{artW}}px; line-height: 0">
+<sc-if value="{{is.onmission}}" hint-placeholder-val="{{false}}"><dc-import name="ArtOnMission" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.second}}" hint-placeholder-val="{{false}}"><dc-import name="ArtSecondPlace" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.glory}}" hint-placeholder-val="{{false}}"><dc-import name="ArtForHisGlory-Honestine" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.cross}}" hint-placeholder-val="{{false}}"><dc-import name="ArtCrossTraining" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.hearts}}" hint-placeholder-val="{{false}}"><dc-import name="ArtLoveNeighbors" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.lantern}}" hint-placeholder-val="{{false}}"><dc-import name="ArtRedeemingLove" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" with-logo="{{rlLogo}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.lost}}" hint-placeholder-val="{{false}}"><dc-import name="ArtLostFound" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.bigheartclean}}" hint-placeholder-val="{{false}}"><dc-import name="ArtLoveMyChurch-Clean" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.sendme}}" hint-placeholder-val="{{false}}"><dc-import name="ArtSendMe" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.salt}}" hint-placeholder-val="{{false}}"><dc-import name="ArtSaltLight" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+<sc-if value="{{is.eat}}" hint-placeholder-val="{{false}}"><dc-import name="ArtWorshipRepeat" w="{{artW}}" ink1="{{ink1.hex}}" ink2="{{ink2.hex}}" bg="{{shirt.hex}}" show-bg="{{false}}" hint-size="{{artHint}}"></dc-import></sc-if>
+</div>
+<sc-if value="{{twoSided}}" hint-placeholder-val="{{false}}">
+<div data-dl="logo" style="position: absolute; left: {{logoL}}px; top: {{logoT}}px; line-height: 0"><dc-import name="Logo" layout="{{logoLayout}}" w="{{logoW}}" c1="{{ink1.hex}}" c2="{{ink2.hex}}" hint-size="{{logoHint}}"></dc-import></div>
+</sc-if>
+<sc-if value="{{guide}}" hint-placeholder-val="{{false}}">
+<div data-dl-skip="1" style="position: absolute; left: {{gF.l}}px; top: {{gF.t}}px; width: {{gF.w}}px; height: {{gF.h}}px; box-sizing: border-box; border: 2px dashed rgba(250,247,241,0.85); outline: 1px dashed rgba(0,0,0,0.45)"></div>
+<div data-dl-skip="1" style="position: absolute; left: {{gB.l}}px; top: {{gB.t}}px; width: {{gB.w}}px; height: {{gB.h}}px; box-sizing: border-box; border: 2px dashed rgba(250,247,241,0.85); outline: 1px dashed rgba(0,0,0,0.45)"></div>
+</sc-if>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; gap: 6px" role="group" aria-label="Garment">
+<sc-for list="{{garments}}" as="it" hint-placeholder-count="2">
+<button type="button" onClick="{{it.pick}}" aria-pressed="{{it.on}}" style="height: 34px; padding: 0 14px; border-radius: 17px; border: 1.5px solid #221f1b; background: {{it.bg}}; color: {{it.fg}}; font-family: Archivo, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer">{{it.label}}</button>
+</sc-for>
+</div>
+<div style="font-size: 15px; font-weight: 600">{{shirt.n}}</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{shirts}}" as="it" hint-placeholder-count="9">
+<button type="button" onClick="{{it.pick}}" aria-label="{{it.n}}" title="{{it.n}}" style="width: 44px; height: 44px; padding: 3px; border-radius: 50%; border: 2px solid {{it.ring}}; background: transparent; cursor: pointer"><span style="display: block; width: 100%; height: 100%; border-radius: 50%; background: {{it.hex}}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.22)"></span></button>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #6d675b">Ink 1 · type &amp; “New Vision”</div>
+<button type="button" onClick="{{openInk1}}" aria-label="Change ink 1, currently {{ink1.n}}" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 14px; border: 1.5px solid #cfc7b8; background: #faf7f1; color: #221f1b; font-family: Archivo, sans-serif; text-align: left; cursor: pointer">
+<span style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: {{ink1.hex}}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25)"></span>
+<span style="display: flex; flex-direction: column; gap: 3px; min-width: 0; flex-grow: 1">
+<span style="font-size: 15px; font-weight: 700">{{ink1.n}}</span>
+<span style="font-size: 13px; color: #4a443d">{{ink1Hex}} · {{ink1.code}}</span>
+</span>
+<span style="font-size: 13px; font-weight: 700; color: #42701f">Change</span>
+</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; opacity: {{ink2Op}}">
+<div style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #6d675b">Ink 2 · accents &amp; “Fellowship”</div>
+<button type="button" onClick="{{openInk2}}" aria-label="Change ink 2, currently {{ink2Name}}" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 14px; border: 1.5px solid #cfc7b8; background: #faf7f1; color: #221f1b; font-family: Archivo, sans-serif; text-align: left; cursor: pointer">
+<span style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: {{ink2r.hex}}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25)"></span>
+<span style="display: flex; flex-direction: column; gap: 3px; min-width: 0; flex-grow: 1">
+<span style="font-size: 15px; font-weight: 700">{{ink2Name}}</span>
+<span style="font-size: 13px; color: #4a443d">{{ink2Code}}</span>
+</span>
+<span style="font-size: 13px; font-weight: 700; color: #42701f">Change</span>
+</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #6d675b">Print options</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{opts}}" as="it" hint-placeholder-count="2">
+<button type="button" onClick="{{it.pick}}" style="height: 44px; padding: 0 14px; border-radius: 22px; border: 1.5px solid #221f1b; background: {{it.bg}}; color: {{it.fg}}; font-family: Archivo, sans-serif; font-weight: 600; font-size: 14px; cursor: pointer">{{it.label}}</button>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #6d675b; margin-right: 4px">Recommended</span>
+<sc-for list="{{presets}}" as="it" hint-placeholder-count="3">
+<button type="button" onClick="{{it.pick}}" style="height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 8px; border-radius: 22px; border: {{it.border}}; background: #faf7f1; color: #221f1b; font-family: Archivo, sans-serif; font-weight: 600; font-size: 14px; cursor: pointer">
+<span style="display: flex; align-items: center; justify-content: center; gap: 3px; width: 64px; height: 30px; border-radius: 15px; background: {{it.sHex}}">
+<span style="width: 14px; height: 14px; border-radius: 50%; background: {{it.aHex}}; box-shadow: 0 0 0 1px rgba(0,0,0,0.2)"></span>
+<span style="width: 14px; height: 14px; border-radius: 50%; background: {{it.bHex}}; box-shadow: 0 0 0 1px rgba(0,0,0,0.2)"></span>
+</span>
+{{it.label}}
+</button>
+</sc-for>
+</div>
+<sc-if value="{{popOpen}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 40px; right: 40px; bottom: 34px; box-sizing: border-box; padding: 22px 24px; border-radius: 18px; background: #faf7f1; border: 1.5px solid #cfc7b8; box-shadow: 0 18px 40px rgba(0,0,0,0.22); display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 20px; font-weight: 800">{{popTitle}}</div>
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; color: #4a443d">Common screen-print inks by Pantone (PMS) number, with NVF brand colors matched to their closest PMS. Screens show these colors only approximately, so check the final colors against your printer’s ink book.</div>
+</div>
+<button type="button" onClick="{{closePop}}" style="flex-shrink: 0; height: 44px; padding: 0 18px; border-radius: 22px; border: 1.5px solid #221f1b; background: #221f1b; color: #faf7f1; font-family: Archivo, sans-serif; font-weight: 700; font-size: 14px; cursor: pointer">Done</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{popItems}}" as="it" hint-placeholder-count="35">
+<button type="button" onClick="{{it.pick}}" style="display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 5px 7px; border-radius: 10px; border: 2px solid {{it.ring}}; background: #ffffff; color: #221f1b; font-family: Archivo, sans-serif; text-align: left; cursor: pointer">
+<span style="flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: {{it.hex}}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25)"></span>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-size: 12px; font-weight: 700; line-height: 1.2">{{it.n}}</span>
+<span style="font-size: 10.5px; color: #4a443d; line-height: 1.25">{{it.code}}</span>
+<span style="font-size: 10.5px; color: #6d675b; line-height: 1.25">{{it.hexU}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<label for="ink-custom" style="font-size: 14px; font-weight: 700">Custom color</label>
+<input id="ink-custom" type="color" value="{{popHex}}" onChange="{{onCustom}}" style="width: 56px; height: 44px; padding: 2px; border: 1.5px solid #cfc7b8; border-radius: 10px; background: #ffffff; cursor: pointer">
+<span style="font-size: 14px; color: #4a443d">Pick any color, then ask your printer for the closest PMS ink. Current: {{popHexU}}</span>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"design":{"editor":"enum","options":["onmission","second","glory","cross","hearts","lantern","lost","bigheartclean","salt","eat","sendme"],"default":"onmission"},"showPicker":{"editor":"boolean","default":false},"$preview":{"width":1320,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const SHIRTS = [
+      { k: 'black', n: 'Black', hex: '#1e1f21', heather: false },
+      { k: 'dkheather', n: 'Dark Heather', hex: '#47494c', heather: true },
+      { k: 'grey', n: 'Sport Grey', hex: '#a3a3a1', heather: true },
+      { k: 'white', n: 'White', hex: '#f4f4f2', heather: false },
+      { k: 'red', n: 'Red', hex: '#b5202e', heather: false },
+      { k: 'maroon', n: 'Maroon', hex: '#57222f', heather: false },
+      { k: 'forest', n: 'Forest Green', hex: '#26392f', heather: false },
+      { k: 'navy', n: 'Navy', hex: '#222a3d', heather: false },
+      { k: 'royal', n: 'Royal', hex: '#24509b', heather: false }
+    ]
+    const INKS = [
+      { k: 'white', n: 'White', hex: '#ffffff', code: 'Opaque white · no PMS equivalent' },
+      { k: 'cream', n: 'NVF Cream', hex: '#f1e6b2', code: 'PMS 7499 C' },
+      { k: 'ash', n: 'Ash Grey', hex: '#d9d9d6', code: 'PMS Cool Gray 1 C' },
+      { k: 'hgrey', n: 'Light Grey', hex: '#bbbcbc', code: 'PMS Cool Gray 4 C' },
+      { k: 'silver', n: 'Medium Grey', hex: '#97999b', code: 'PMS Cool Gray 7 C' },
+      { k: 'slate', n: 'Slate', hex: '#333f48', code: 'PMS 432 C' },
+      { k: 'charcoal', n: 'NVF Charcoal', hex: '#31261d', code: 'PMS Black 4 C' },
+      { k: 'black', n: 'Black', hex: '#101820', code: 'PMS Black 6 C' },
+      { k: 'yellow', n: 'Yellow', hex: '#ffd100', code: 'PMS 109 C' },
+      { k: 'gold', n: 'Athletic Gold', hex: '#ffc72c', code: 'PMS 123 C' },
+      { k: 'vegas', n: 'Vegas Gold', hex: '#ceb888', code: 'PMS 7502 C' },
+      { k: 'ochre', n: 'NVF Ochre', hex: '#ad841f', code: 'PMS 1255 C' },
+      { k: 'orange', n: 'Orange', hex: '#ff6a13', code: 'PMS 1585 C' },
+      { k: 'brightorange', n: 'Bright Orange', hex: '#fe5000', code: 'PMS 021 C' },
+      { k: 'khaki', n: 'Khaki', hex: '#a89968', code: 'PMS 7503 C' },
+      { k: 'brown', n: 'Brown', hex: '#4f2c1d', code: 'PMS 4625 C' },
+      { k: 'terra', n: 'NVF Terracotta', hex: '#c05131', code: 'PMS 7591 C' },
+      { k: 'brightred', n: 'Bright Red', hex: '#da291c', code: 'PMS 485 C' },
+      { k: 'red', n: 'Scarlet Red', hex: '#c8102e', code: 'PMS 186 C' },
+      { k: 'cardinal', n: 'Cardinal', hex: '#862633', code: 'PMS 202 C' },
+      { k: 'maroonink', n: 'Maroon', hex: '#651d32', code: 'PMS 7421 C' },
+      { k: 'lime', n: 'Lime Green', hex: '#97d700', code: 'PMS 375 C' },
+      { k: 'bright', n: 'NVF Bright Green', hex: '#78be20', code: 'PMS 368 C' },
+      { k: 'green', n: 'NVF Leaf Green', hex: '#6ba539', code: 'PMS 7737 C' },
+      { k: 'kelly', n: 'Kelly Green', hex: '#00843d', code: 'PMS 348 C' },
+      { k: 'forest', n: 'Forest Green', hex: '#154734', code: 'PMS 3435 C' },
+      { k: 'olive', n: 'Olive Green', hex: '#3e4827', code: 'PMS 5743 C' },
+      { k: 'teal', n: 'Teal', hex: '#008c95', code: 'PMS 321 C' },
+      { k: 'steel', n: 'Steel Blue', hex: '#3f6078', code: 'PMS 5405 C' },
+      { k: 'denim', n: 'Denim Blue', hex: '#4e87a0', code: 'PMS 7697 C' },
+      { k: 'sky', n: 'Sky Blue', hex: '#00a9e0', code: 'PMS 2995 C' },
+      { k: 'lightblue', n: 'Columbia Blue', hex: '#9bcbeb', code: 'PMS 291 C' },
+      { k: 'blue', n: 'Medium Blue', hex: '#005eb8', code: 'PMS 300 C' },
+      { k: 'royal', n: 'Royal Blue', hex: '#003da5', code: 'PMS 293 C' },
+      { k: 'navyink', n: 'Navy', hex: '#0c2340', code: 'PMS 289 C' }
+    ];
+    const D = [
+      { k: 'onmission', t: 'On Mission', b: '“Go therefore and make disciples” rings the top, Matthew 28:18–20 the bottom. Stacked church logo on the other side.', sides: 2, logo: 'stacked', msgFront: false, pw: 11, ar: 1, P: [['navy', 'white', 'bright'], ['forest', 'cream', 'ochre'], ['black', 'white', 'green'], ['navy', 'gold', 'white']] },
+      { k: 'second', t: 'He Must Increase', b: 'A towering HE with MUST INCREASE beneath it and a small “me” below, from John 3:30. Printed on the back, with the stacked logo on the front.', sides: 2, logo: 'stacked', msgFront: false, pw: 12, ar: 1.167, P: [['black', 'white', 'red'], ['navy', 'white', 'gold'], ['grey', 'black', 'red'], ['navy', 'cream', 'denim']] },
+      { k: 'glory', t: 'For His Glory', b: 'Blackletter and script woven together, with “Love & Truth in Action” beneath. Stacked logo on the other side.', sides: 2, logo: 'stacked', msgFront: false, pw: 12, ar: 0.9, P: [['navy', 'white', 'ochre'], ['black', 'gold', 'white'], ['grey', 'white', 'steel'], ['white', 'sky', 'steel']] },
+      { k: 'cross', t: 'Crosstraining', b: 'The NVF cross mark in a rounded frame, ringed by the curved church logo, with CROSSTRAINING and Luke 9:23 in stencil below. Printed on the back, with the stacked logo on the front.', sides: 2, logo: 'stacked', msgFront: false, pw: 12, ar: 0.98, P: [['black', 'hgrey', 'bright'], ['navy', 'hgrey', 'white'], ['royal', 'white', 'yellow'], ['forest', 'hgrey', 'gold']] },
+      { k: 'hearts', t: 'I Love My Church · We Love Our Neighbors', b: 'A heart over I LOVE MY CHURCH and WE LOVE OUR NEIGHBORS, with a row of houses below, the center one marked with a heart and cross. Printed on the back, with the stacked logo on the front.', sides: 2, logo: 'stacked', msgFront: false, pw: 12, ar: 1.169, P: [['navy', 'white', 'gold'], ['grey', 'white', 'cardinal'], ['forest', 'white', 'vegas'], ['navy', 'white', 'red']] },
+      { k: 'lantern', t: 'Redeeming Love Warms Cold Hearts', b: 'A distressed lantern glowing in the second ink with a heart cut out of the glass, REDEEMING LOVE arched above, WARMS COLD HEARTS on the base and Luke 24:32 below. One side with the flat logo under the lantern, or two sides with the stacked logo.', sides: 'either', defSides: 2, logo: 'stacked', msgFront: false, pw: 12, ar: 1.035, P: [['maroon', 'cream', 'gold'], ['black', 'cream', 'gold'], ['forest', 'cream', 'gold'], ['navy', 'cream', 'gold']] },
+      { k: 'lost', t: 'Lost → Found', b: 'Brush-script Lost crossed out by a FOUND label on a long rule, with the flat logo below. One side.', sides: 1, pw: 12, ar: 0.715, P: [['grey', 'white', 'teal'], ['black', 'white', 'teal'], ['white', 'black', 'teal'], ['dkheather', 'bright', 'white']] },
+      { k: 'bigheartclean', t: 'I Love My Church & We Love Our Neighbors', b: 'A big heart behind script and block type, with the flat logo along the bottom. Printed on the back, with the stacked logo on the front.', sides: 2, logo: 'stacked', msgFront: false, pw: 12, ar: 0.965, P: [['navy', 'cream', 'denim'], ['red', 'cream', 'steel'], ['maroon', 'cream', 'denim'], ['grey', 'white', 'cardinal']] },
+      { k: 'salt', t: 'Salt & Light · Est. 1997', b: 'A badge with the flat logo bent around the top arc and Matthew 5:13–16 around the bottom. One side.', sides: 1, pw: 11, ar: 1, P: [['navy', 'cream', 'ochre'], ['forest', 'ochre', 'cream'], ['black', 'ochre', 'white'], ['maroon', 'gold', 'cream']] },
+      { k: 'eat', t: 'Eat · Sleep · Worship · Repeat', b: 'Stripes alternating between the two inks, with the flat logo as the last line. One side.', sides: 1, pw: 11, ar: 0.69, P: [['navy', 'lightblue', 'white'], ['black', 'bright', 'white'], ['grey', 'charcoal', 'green'], ['forest', 'cream', 'bright']] },
+      { k: 'sendme', t: 'Here I Am, Send Me', b: 'Raised hands reaching up beside HERE I AM / SEND ME and Isaiah 6:8. A third set of hands is left unprinted, so the shirt color shows through as its own color. Printed on the back, with the stacked logo on the front.', sides: 2, logo: 'stacked', msgFront: false, pw: 12, ar: 1.077, P: [['navy', 'white', 'green'], ['white', 'navyink', 'sky'], ['grey', 'navyink', 'sky'], ['black', 'white', 'sky']] }
+    ];
+    const EXTRA = {};
+    D.forEach((x) => { if (EXTRA[x.k]) x.P.push(EXTRA[x.k]); });
+    const s = this.state || {};
+    const key = s.design || this.props.design || 'onmission';
+    const di = Math.max(0, D.findIndex((x) => x.k === key));
+    const d = D[di];
+    const p = d.P[s.preset ?? 0] || d.P[0];
+    const find = (arr, k) => arr.find((x) => x.k === k) || arr[0];
+    const shirt = find(SHIRTS, s.shirt ?? p[0]);
+    const findInk = (k) => (typeof k === 'string' && k[0] === '#') ? { k, n: 'Custom color', hex: k, code: 'ask printer for nearest PMS' } : find(INKS, k);
+    const ink1 = findInk(s.ink1 ?? p[1]);
+    const ink2r = findInk(s.ink2 ?? p[2]);
+    const one = s.one ?? !!p[3];
+    const ink2 = one ? ink1 : ink2r;
+    const either = d.sides === 'either';
+    const twoSided = d.sides === 2 || (either && (s.sides ?? d.defSides) === 2);
+    const dAr = (d.k === 'lantern' && !twoSided) ? 1.099 : d.ar;
+    let msgFront = twoSided ? (either ? false : d.msgFront) : true;
+    if (twoSided && s.swap) msgFront = !msgFront;
+    const big = s.big ?? true;
+    const youth = !!s.youth;
+    const guide = !!s.guide;
+    const tee = s.garment === 'tee';
+    // Sweatshirt drawing: 20 units per inch on an adult L (24in x 29in body); a youth L (about 19in x 23in) has the same proportions.
+    // Traced from a Gildan 18000 product photo: 880 units from shoulder to hem (29in adult L, about 23in youth L).
+    // Gildan 64000 tee drawing: 26 units per inch on an adult L (22in x 30in body), shoulder point y 70 to hem y 850;
+    // a youth L (about 18in x 23.5in) has nearly the same proportions. Front collar seam y 150, back y 91.
+    const U = tee ? (youth ? 780 / 23.5 : 26) : (youth ? 880 / 23 : 880 / 29);
+    // Tees print closer to the collar than fleece: about 3in front / 2.5in back on an adult tee.
+    const up = tee ? (youth ? 0.5 : 1) : 0;
+    const sc = 500 / 800, OY = 16, OX = 50, CX = 497;
+    const X = (u) => OX + (u - 100) * sc;
+    const Y = (v) => (v - 36) * sc + OY;
+    const FC = tee ? 150 : 158, BC = tee ? 91 : 80;
+    const pwIn = youth ? 9 : 12;
+    const pwU = pwIn * U;
+    const artW = Math.round(pwU * sc);
+    const msgDrop = (msgFront ? (youth ? 3 : 4) : (youth ? 2.5 : 3.5)) - up;
+    const msgL = Math.round((msgFront ? 0 : 640) + X(CX - pwU / 2));
+    const msgT = Math.round(Y((msgFront ? FC : BC) + msgDrop * U));
+    const logoLayout = d.logo || 'stacked';
+    const st = logoLayout === 'stacked';
+    const lf = !msgFront;
+    const logoIn = big ? pwIn : (lf ? (youth ? 3.5 : 4) : (st ? (youth ? 3.5 : 4.5) : (youth ? 8 : 10)));
+    let lcx = CX, ldrop;
+    if (lf) { if (big) { ldrop = (youth ? 3 : 4) - up; } else { ldrop = (youth ? 2.5 : 3) - (tee ? 0.5 : 0); lcx = CX + (youth ? 3.25 : 4) * U; } }
+    else { ldrop = big ? (youth ? 2.5 : 3.5) - up : (youth ? 2 : 2.5) - (tee ? 0.5 : 0); }
+    const lwU = logoIn * U;
+    const logoW = Math.round(lwU * sc);
+    const logoL = Math.round((lf ? 0 : 640) + X(lcx - lwU / 2));
+    const logoT = Math.round(Y((lf ? FC : BC) + ldrop * U));
+    const lAr = st ? 233 / 564 : 75 / 1626;
+    const gw = (youth ? 10 : 12) * U * sc, gh = (youth ? 12 : 14) * U * sc;
+    const gF = { l: Math.round(X(CX) - gw / 2), t: Math.round(Y(FC + ((youth ? 3 : 4) - up) * U)), w: Math.round(gw), h: Math.round(gh) };
+    const gB = { l: Math.round(640 + X(CX) - gw / 2), t: Math.round(Y(BC + ((youth ? 2.5 : 3.5) - up) * U)), w: Math.round(gw), h: Math.round(gh) };
+    const msgSpec = { a: 'Design · ' + pwIn + '″ wide × ' + (pwIn * dAr).toFixed(1) + '″ tall', b: 'Centered; top edge ' + msgDrop + '″ below the collar seam' };
+    const logoSpec = {
+      a: (st ? 'Stacked' : 'Flat') + ' logo · ' + logoIn + '″ wide × ' + (logoIn * lAr).toFixed(1) + '″ tall',
+      b: big ? 'Centered; top edge ' + ldrop + '″ below the collar seam'
+        : (lf ? 'Left chest, centered ' + (youth ? 3.25 : 4) + '″ off center; top edge ' + ldrop + '″ below the collar seam' : 'Upper back, centered; top edge ' + ldrop + '″ below the collar seam')
+    };
+    const blank = { a: 'No print', b: 'One-sided design' };
+    const frontSpec = msgFront ? msgSpec : logoSpec;
+    const backSpec = msgFront ? (twoSided ? logoSpec : blank) : msgSpec;
+    const is = {};
+    D.forEach((x) => { is[x.k] = x.k === d.k; });
+    const reset = { preset: 0, shirt: undefined, ink1: undefined, ink2: undefined, one: undefined, swap: false, big: undefined, sides: undefined };
+    let dn = 0;
+    const designs = D.map((x, i) => ({
+      num: x.num || String(++dn).padStart(2, '0'), name: x.t,
+      pick: () => this.setState({ ...reset, design: x.k }),
+      bg: x.k === d.k ? '#221f1b' : '#faf7f1', fg: x.k === d.k ? '#faf7f1' : '#221f1b', border: x.k === d.k ? '#221f1b' : '#cfc7b8'
+    }));
+    const ring = (on) => (on ? '#221f1b' : 'transparent');
+    const shirts = SHIRTS.map((x) => ({ ...x, ring: ring(x.k === shirt.k), pick: () => this.setState({ shirt: x.k }) }));
+    const slot = s.open || null;
+    const cur = slot === 'ink2' ? ink2r : ink1;
+    const setInk = (v) => this.setState(slot === 'ink2' ? { ink2: v, one: false } : { ink1: v });
+    const popItems = INKS.map((x) => ({ ...x, hexU: x.hex.toUpperCase(), ring: ring(x.k === cur.k && !(slot === 'ink2' && one)), pick: () => { setInk(x.k); this.setState({ open: null }); } }));
+    const onCustom = (e) => { const v = e && e.target ? e.target.value : null; if (v) setInk(v); };
+    const presets = d.P.map((q, i) => {
+      const S1 = find(SHIRTS, q[0]), A = find(INKS, q[1]), B = find(INKS, q[2]);
+      const active = shirt.k === S1.k && ink1.k === A.k && (q[3] ? one : (!one && ink2r.k === B.k));
+      return {
+        label: S1.n + ' · ' + A.n + (q[3] ? ' (1 color)' : ' + ' + B.n),
+        sHex: S1.hex, aHex: A.hex, bHex: q[3] ? A.hex : B.hex,
+        border: active ? '2px solid #221f1b' : '1.5px solid #cfc7b8',
+        pick: () => this.setState({ preset: i, shirt: undefined, ink1: undefined, ink2: undefined, one: undefined })
+      };
+    });
+    const opt = (label, on, pick) => ({ label, pick, bg: on ? '#221f1b' : '#faf7f1', fg: on ? '#faf7f1' : '#221f1b' });
+    const garments = [['sweat', 'Sweatshirt · 18000'], ['tee', 'T-shirt · 64000']].map(([k, label]) => {
+      const on = (k === 'tee') === tee;
+      return { label, on, bg: on ? '#221f1b' : '#faf7f1', fg: on ? '#faf7f1' : '#221f1b', pick: () => this.setState({ garment: k }) };
+    });
+    const opts = [opt(youth ? 'Youth (9″ print)' : 'Adult (12″ print)', youth, () => this.setState({ youth: !youth })), opt(one ? 'One color: on' : 'One color: off', one, () => this.setState({ one: !one }))];
+    if (either) opts.push(opt(twoSided ? 'Two sides' : 'One side', twoSided, () => this.setState({ sides: twoSided ? 1 : 2, swap: false })));
+    if (twoSided) {
+      opts.push(opt(msgFront ? 'Design on front' : 'Design on back', !!s.swap, () => this.setState({ swap: !s.swap })));
+      opts.push(opt(big ? 'Logo: large' : 'Logo: small', big, () => this.setState({ big: !big })));
+    }
+    opts.push(opt(guide ? 'Max print area: on' : 'Max print area: off', guide, () => this.setState({ guide: !guide })));
+    const placeText = (tee ? (youth ? 'Youth L tee shown · body about 18″ × 23½″' : 'Adult L tee shown · body about 22″ × 30″') : (youth ? 'Youth L shown · body about 19″ × 23″' : 'Adult L shown · body about 24″ × 29″')) + ' · drawn to scale';
+    const garmentLabel = tee ? 'Gildan 64000 Softstyle tee' : 'Gildan 18000 crewneck';
+    const showPicker = !!(this.props.showPicker ?? false);
+    const numLabel = designs[di].num;
+    this.dl = { d, num: numLabel, garment: tee ? 'tee' : 'sweat', shirt, ink1, ink2, one, twoSided, msgFront, youth, pxPerIn: U * sc, frontSpec, backSpec };
+    return {
+      d, num: numLabel, is, shirt, ink1, ink2, tee, sweat: !tee, garmentLabel, garments,
+      ink2Name: one ? 'Same as ink 1' : ink2r.n, ink2Op: one ? 0.45 : 1,
+      twoSided, artW, msgL, msgT, artHint: artW + 'px,' + Math.round(artW * dAr) + 'px',
+      logoLayout, logoW, logoL, logoT, logoHint: logoW + 'px,' + Math.round(logoW * lAr) + 'px',
+      rlLogo: !twoSided, guide, gF, gB, frontSpec, backSpec,
+      ink2r: one ? ink1 : ink2r, ink1Hex: ink1.hex.toUpperCase(),
+      ink2Code: one ? 'Turn off one-color to choose' : ink2r.hex.toUpperCase() + ' · ' + ink2r.code,
+      openInk1: () => this.setState({ open: 'ink1' }), openInk2: () => this.setState({ open: 'ink2' }), closePop: () => this.setState({ open: null }),
+      popOpen: !!slot, popTitle: slot === 'ink2' ? 'Choose Ink 2 · accents & “Fellowship”' : 'Choose Ink 1 · type & “New Vision”',
+      popItems, onCustom, popHex: cur.hex, popHexU: cur.hex.toUpperCase(),
+      chipColors: (one ? 1 : 2) + '-color print', chipSides: twoSided ? '2 sides' : '1 side', placeText,
+      designs, shirts, presets, opts, showPicker, rootH: showPicker ? 1260 : 1180
+    };
+  }
+}
+</script>
+</body>
+</html>

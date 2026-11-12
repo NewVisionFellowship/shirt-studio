@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>On Mission — artwork (saved version A)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Orbitron:wght@900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: {{w}}px; height: {{h}}px; background: {{bgFill}}; line-height: 0">
+<svg viewBox="0 0 1000 1000" style="width: 100%; height: 100%; display: block" role="img" aria-label="On Mission. Go therefore and make disciples. Matthew 28:18-20">
+<defs>
+<path id="om-top" d="M 45 500 A 455 455 0 0 1 955 500"></path>
+<path id="om-bot" d="M 14 500 A 486 486 0 0 0 986 500"></path>
+<clipPath id="om-circle"><circle cx="500" cy="500" r="420"></circle></clipPath>
+<g id="om-words" style="font-family: Orbitron, sans-serif; font-weight: 900; text-anchor: middle">
+<text x="500" y="368" textLength="300" lengthAdjust="spacingAndGlyphs" style="font-size: 150px">ON</text>
+<text x="500" y="556" textLength="480" lengthAdjust="spacingAndGlyphs" style="font-size: 190px">MIS</text>
+<text x="500" y="744" textLength="580" lengthAdjust="spacingAndGlyphs" style="font-size: 190px">SION</text>
+</g>
+</defs>
+<g style="clip-path: url(#om-circle)">
+<g style="fill: none; stroke: {{ink2}}; stroke-width: 4.5">
+<rect x="458" y="494" width="84" height="12"></rect> <rect x="445" y="481" width="110" height="38"></rect> <rect x="432" y="468" width="136" height="64"></rect> <rect x="419" y="455" width="162" height="90"></rect> <rect x="406" y="442" width="188" height="116"></rect> <rect x="393" y="429" width="214" height="142"></rect> <rect x="380" y="416" width="240" height="168"></rect> <rect x="367" y="403" width="266" height="194"></rect> <rect x="354" y="390" width="292" height="220"></rect> <rect x="341" y="377" width="318" height="246"></rect> <rect x="328" y="364" width="344" height="272"></rect> <rect x="315" y="351" width="370" height="298"></rect> <rect x="302" y="338" width="396" height="324"></rect> <rect x="289" y="325" width="422" height="350"></rect> <rect x="276" y="312" width="448" height="376"></rect> <rect x="263" y="299" width="474" height="402"></rect> <rect x="250" y="286" width="500" height="428"></rect> <rect x="237" y="273" width="526" height="454"></rect> <rect x="224" y="260" width="552" height="480"></rect> <rect x="211" y="247" width="578" height="506"></rect> <rect x="198" y="234" width="604" height="532"></rect> <rect x="185" y="221" width="630" height="558"></rect> <rect x="172" y="208" width="656" height="584"></rect> <rect x="159" y="195" width="682" height="610"></rect> <rect x="146" y="182" width="708" height="636"></rect> <rect x="133" y="169" width="734" height="662"></rect> <rect x="120" y="156" width="760" height="688"></rect> <rect x="107" y="143" width="786" height="714"></rect> <rect x="94" y="130" width="812" height="740"></rect> <rect x="81" y="117" width="838" height="766"></rect> <rect x="68" y="104" width="864" height="792"></rect> <rect x="55" y="91" width="890" height="818"></rect> <rect x="42" y="78" width="916" height="844"></rect> <rect x="29" y="65" width="942" height="870"></rect>
+</g>
+<g style="stroke-linejoin: miter; stroke-miterlimit: 8">
+<use href="#om-words" style="fill: {{bg}}; stroke: {{bg}}; stroke-width: 104px"></use>
+<use href="#om-words" style="fill: {{ink1}}; stroke: {{ink1}}; stroke-width: 87px"></use>
+<use href="#om-words" style="fill: {{bg}}; stroke: {{bg}}; stroke-width: 78px"></use>
+<use href="#om-words" style="fill: {{ink1}}; stroke: {{ink1}}; stroke-width: 61px"></use>
+<use href="#om-words" style="fill: {{bg}}; stroke: {{bg}}; stroke-width: 52px"></use>
+<use href="#om-words" style="fill: {{ink1}}; stroke: {{ink1}}; stroke-width: 35px"></use>
+<use href="#om-words" style="fill: {{bg}}; stroke: {{bg}}; stroke-width: 26px"></use>
+<use href="#om-words" style="fill: {{ink1}}; stroke: {{ink1}}; stroke-width: 9px"></use>
+<use href="#om-words" style="fill: {{bg}}; stroke: none"></use>
+</g>
+</g>
+<circle cx="24" cy="500" r="9" style="fill: {{ink2}}"></circle>
+<circle cx="976" cy="500" r="9" style="fill: {{ink2}}"></circle>
+<text style="font-family: Archivo, sans-serif; font-weight: 700; font-stretch: 112%; font-size: 38px; letter-spacing: 9px; fill: {{ink1}}"><textPath href="#om-top" startOffset="50%" style="text-anchor: middle">GO THEREFORE AND MAKE DISCIPLES</textPath></text>
+<text style="font-family: Archivo, sans-serif; font-weight: 700; font-stretch: 112%; font-size: 38px; letter-spacing: 12px; fill: {{ink1}}"><textPath href="#om-bot" startOffset="50%" style="text-anchor: middle">MATTHEW 28:18–20</textPath></text>
+</svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ink1":{"editor":"color","default":"#ffffff","options":["#ffffff","#eee3c8","#bdb9b2","#24201d"]},"ink2":{"editor":"color","default":"#74ca33","options":["#74ca33","#5f9a32","#b3852b","#ffffff"]},"bg":{"editor":"color","default":"#232b40","options":["#232b40","#35493b","#1c1c1e","#5b2c35"]},"showBg":{"editor":"boolean","default":true},"w":{"editor":"int","default":1000,"min":100,"max":4000},"$preview":{"width":1000,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w ?? 1000);
+    const bg = this.props.bg ?? '#232b40';
+    const showBg = this.props.showBg ?? true;
+    return { w, h: w, ink1: this.props.ink1 ?? '#ffffff', ink2: this.props.ink2 ?? '#74ca33', bg, bgFill: showBg ? bg : 'transparent' };
+  }
+}
+</script>
+</body>
+</html>

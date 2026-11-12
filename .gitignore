@@ -1,0 +1,6 @@
+__pycache__/
+.venv/
+exports/*
+!exports/.gitkeep
+*.zip
+.DS_Store

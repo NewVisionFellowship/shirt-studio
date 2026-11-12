@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gildan 64000 Softstyle tee mockup</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: {{w}}px; height: {{h}}px; line-height: 0">
+<svg viewBox="100 36 800 914" style="width: 100%; height: 100%; display: block; overflow: visible; filter: drop-shadow(0 12px 16px rgba(0,0,0,0.18))" aria-hidden="true">
+<defs>
+<clipPath id="tsc-{{view}}"><path d="{{body}}"></path></clipPath>
+<filter id="tsh-{{view}}" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.4 0 0 0 -0.55"></feColorMatrix></filter>
+<linearGradient id="tsg-{{view}}" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0" style="stop-color: #000; stop-opacity: 0.22"></stop>
+<stop offset="0.1" style="stop-color: #000; stop-opacity: 0.05"></stop>
+<stop offset="0.19" style="stop-color: #000; stop-opacity: 0.10"></stop>
+<stop offset="0.215" style="stop-color: #000; stop-opacity: 0.20"></stop>
+<stop offset="0.32" style="stop-color: #000; stop-opacity: 0.06"></stop>
+<stop offset="0.5" style="stop-color: #fff; stop-opacity: 0.05"></stop>
+<stop offset="0.68" style="stop-color: #000; stop-opacity: 0.06"></stop>
+<stop offset="0.785" style="stop-color: #000; stop-opacity: 0.20"></stop>
+<stop offset="0.81" style="stop-color: #000; stop-opacity: 0.10"></stop>
+<stop offset="0.9" style="stop-color: #000; stop-opacity: 0.05"></stop>
+<stop offset="1" style="stop-color: #000; stop-opacity: 0.22"></stop>
+</linearGradient>
+<linearGradient id="tsv-{{view}}" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" style="stop-color: #fff; stop-opacity: 0.06"></stop>
+<stop offset="0.25" style="stop-color: #fff; stop-opacity: 0"></stop>
+<stop offset="1" style="stop-color: #000; stop-opacity: 0.09"></stop>
+</linearGradient>
+<pattern id="tsr-{{view}}" width="4" height="10" patternUnits="userSpaceOnUse"><rect width="1.2" height="10" style="fill: rgba(0,0,0,0.16)"></rect></pattern>
+</defs>
+<path d="{{body}}" style="fill: {{color}}"></path>
+<path d="{{collar}}" style="fill: {{color}}"></path>
+<path d="{{inner}}" style="fill: rgba(0,0,0,0.40)"></path>
+<g style="clip-path: url(#tsc-{{view}})">
+<rect x="0" y="36" width="994" height="914" style="fill: url(#tsg-{{view}})"></rect>
+<rect x="0" y="36" width="994" height="914" style="fill: url(#tsv-{{view}})"></rect>
+<path d="M237 114 C232 180 222 250 211 300 M757 114 C762 180 772 250 783 300" style="fill: none; stroke: rgba(0,0,0,0.22); stroke-width: 2.5; stroke-linecap: round"></path>
+<path d="M81 214 L180 374 M913 214 L814 374 M213 826 C400 832 594 832 781 826" style="fill: none; stroke: rgba(0,0,0,0.20); stroke-width: 1.6; stroke-dasharray: 5 4"></path>
+<path d="M86 236 L170 371 M908 236 L824 371 M213 836 C400 842 594 842 781 836" style="fill: none; stroke: rgba(0,0,0,0.12); stroke-width: 1.4; stroke-dasharray: 5 4"></path>
+<path d="M232 470 C252 482 272 486 292 484 M762 470 C742 482 722 486 702 484 M226 660 C250 672 276 676 302 672 M768 660 C744 672 718 676 692 672" style="fill: none; stroke: rgba(0,0,0,0.08); stroke-width: 3; stroke-linecap: round"></path>
+</g>
+<g style="opacity: {{heatherOp}}">
+<rect x="0" y="36" width="994" height="914" style="filter: url(#tsh-{{view}}); clip-path: url(#tsc-{{view}})"></rect>
+</g>
+<path d="{{collar}}" style="fill: url(#tsr-{{view}}); stroke: rgba(0,0,0,0.26); stroke-width: 1.4; stroke-linejoin: round"></path>
+<path d="{{body}}" style="fill: none; stroke: rgba(0,0,0,0.28); stroke-width: 1.5; stroke-linejoin: round"></path>
+</svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"color":{"editor":"color","default":"#222a3d","options":["#57222f","#b5202e","#26392f","#222a3d"]},"heather":{"editor":"boolean","default":false},"view":{"editor":"enum","options":["front","back"],"default":"front"},"w":{"editor":"int","default":600,"min":100,"max":2000},"$preview":{"width":600,"height":685}}'>
+class Component extends DCLogic {
+  renderVals() {
+    // Gildan 64000 Softstyle tee, adult L: 22in chest x 30in long (high point shoulder to hem).
+    // Drawn at 26 units per inch: shoulder point y = 70, hem y = 850; center line x = 497.
+    // Front collar seam at center y = 150 (about 3in neck drop); back collar seam y = 91.
+    const view = this.props.view ?? 'front';
+    const w = Number(this.props.w ?? 600);
+    const front = view !== 'back';
+    const neck = front ? 'C575 177 419 177 402 70' : 'C575 98 419 98 402 70';
+    const body = 'M402 70 C350 80 280 98 237 114 C190 140 110 190 61 226 L160 386 C178 360 196 330 211 300 C214 420 214 700 213 850 C400 856 594 856 781 850 C780 700 780 420 783 300 C798 330 816 360 834 386 L933 226 C884 190 804 140 757 114 C714 98 644 80 592 70 ' + neck + ' Z';
+    const collar = front
+      ? 'M402 70 C419 177 575 177 592 70 L578 60 C562 152 432 152 416 60 Z M402 70 L416 56 C450 66 544 66 578 56 L592 70 L578 60 C544 70 450 70 416 60 Z'
+      : 'M402 70 C419 98 575 98 592 70 L584 52 C550 64 444 64 410 52 Z';
+    const inner = front ? 'M416 60 C432 152 562 152 578 60 C544 70 450 70 416 60 Z' : 'M0 0 Z';
+    const heather = this.props.heather ?? false;
+    return { view, w, h: Math.round(w * 914 / 800), body, collar, inner, color: this.props.color ?? '#222a3d', heatherOp: heather ? 0.34 : 0 };
+  }
+}
+</script>
+</body>
+</html>
